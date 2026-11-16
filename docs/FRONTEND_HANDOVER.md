@@ -16,6 +16,7 @@ All commands run from the repo root. Node.js 22 or newer is recommended (develop
 | Production build into `frontend/dist` | `npm --prefix frontend run build` |
 | Serve the build locally | `npm --prefix frontend run preview` |
 
+- If your terminal is already inside `frontend/`, leave out `--prefix frontend` and run `npm install`, `npm run dev`, `npm test`, `npm run build`. Using `--prefix frontend` from inside that folder looks for `frontend/frontend/package.json` and fails with `ENOENT`.
 - Routes are `/`, `/topics/<topic_id>` and `/status`. The dev server and `preview` serve the app for any of these URLs. A real deployment needs a fallback rule that returns `index.html` for unknown paths, or opening a topic link directly will 404.
 - `npm run build` prints a warning that one file is over 500 kB. That is Recharts; it is harmless for this project.
 
