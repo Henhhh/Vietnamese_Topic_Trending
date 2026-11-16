@@ -1,6 +1,6 @@
 # 7-day feed trial
 
-Run the collector on all 25 RSS feeds (5 sources × 5 categories, see [README](../README.md)) for 7 consecutive days before the pipeline design is fixed. Seven days covers one full weekly cycle, including the weekend rise in sports coverage.
+Run the collector on all 20 RSS feeds (4 sources × 5 categories, see [README](../README.md)) for 7 consecutive days before the pipeline design is fixed. Seven days covers one full weekly cycle, including the weekend rise in sports coverage.
 
 Owner: Person 2 (Data). Polling interval: every 15 minutes, as shown in the prototype.
 
@@ -31,14 +31,9 @@ Collection starts with RSS only (title + description). After the trial, Person 4
 
 | Source | Items per feed | Oldest item |
 |---|---|---|
-| VietNamNet | 1,000 | 1–3 months old |
 | Dân trí | 100 | 4–17 days old, depending on category |
 
 VnExpress, Tuổi Trẻ and Thanh Niên have not been measured.
-
-## Known issue
-
-VietNamNet's `cong-nghe.rss` is stale (newest item May 2025). The fix is deferred; until then, use its sub-feeds `cong-nghe/an-ninh-mang.rss` and `cong-nghe/ha-tang-so.rss`, or collect from the category page if the source permits.
 
 ## Output
 

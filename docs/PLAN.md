@@ -33,7 +33,7 @@ Added on 16 November 2026 after the source list and the prototype inconsistencie
 | Person | Tasks |
 |---|---|
 | **1 — Lead & Integration** | ⬜ Orchestration keeps running when a feed fails and records the run as "Hoàn thành một phần" |
-| **2 — Data** | ⬜ Run the 7-day trial on all 25 feeds<br>⬜ Map each source's category names to the 5 shared categories<br>⬜ Fix VietNamNet's Công nghệ feed (deferred) |
+| **2 — Data** | ⬜ Run the 7-day trial on all 20 feeds<br>⬜ Map each source's category names to the 5 shared categories |
 | **3 — NLP** | ⬜ Process title + RSS description as the input text (no full article text unless the trial shows it is needed) |
 | **4 — Topic Detection** | ⬜ Keep `topic_id` stable across runs (required by the URL scheme)<br>⬜ Hand-check clustering on title + description after the trial |
 | **5 — Trend Analysis** | ⬜ One trend score per topic, computed over the latest 24 hours<br>⬜ Growth for 6 giờ compares with the same hours on the previous day<br>⬜ Set the minimum baseline count below which no percentage is shown |

@@ -12,11 +12,11 @@ A web-based system that collects Vietnamese online news, groups articles into to
 ## Scope
 
 - Vietnamese-language online news.
-- 5 news sources: VnExpress, Tuổi Trẻ, Thanh Niên, Dân trí, VietNamNet.
-- 5 categories per source: Thời sự, Thế giới, Kinh tế, Công nghệ, Thể thao — 25 RSS feeds in total.
+- 4 news sources: VnExpress, Tuổi Trẻ, Thanh Niên, Dân trí.
+- 5 categories per source: Thời sự, Thế giới, Kinh tế, Công nghệ, Thể thao — 20 RSS feeds in total.
   - Thể thao is kept on purpose: it tests whether the algorithm can tell steady, routine coverage apart from an event whose coverage rises abnormally.
-  - Open issue, to be fixed later (checked 16 November 2026): VietNamNet's `cong-nghe.rss` returns stale items (newest May 2025). Only its sub-feeds `cong-nghe/an-ninh-mang.rss` and `cong-nghe/ha-tang-so.rss` are current, so VietNamNet's Công nghệ coverage is partial until this is resolved.
-- The 25 feeds are first run for 7 days to measure volume, duplicates and errors: see [docs/FEED_TRIAL.md](docs/FEED_TRIAL.md).
+  - VietNamNet was considered as a fifth source and dropped: it has no working RSS feed for Công nghệ (checked 16 November 2026).
+- The 20 feeds are first run for 7 days to measure volume, duplicates and errors: see [docs/FEED_TRIAL.md](docs/FEED_TRIAL.md).
 - 3-page MVP: **Overview**, **Topic Detail**, **System Status**.
 - 7 roles (see below). Progress per role is tracked in [docs/PLAN.md](docs/PLAN.md).
 
