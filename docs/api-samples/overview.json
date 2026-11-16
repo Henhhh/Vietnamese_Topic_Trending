@@ -1,0 +1,179 @@
+{
+  "data_as_of": "2026-11-16T08:15:00+07:00",
+  "range": "24h",
+  "summary": {
+    "article_count": 1284,
+    "topic_count": 36,
+    "rising_topic_count": 12,
+    "feeds_ok": 19,
+    "feeds_total": 20
+  },
+  "sources": [
+    {
+      "code": "vnexpress",
+      "name": "VnExpress"
+    },
+    {
+      "code": "tuoitre",
+      "name": "Tuổi Trẻ"
+    },
+    {
+      "code": "thanhnien",
+      "name": "Thanh Niên"
+    },
+    {
+      "code": "dantri",
+      "name": "Dân trí"
+    }
+  ],
+  "total": 36,
+  "limit": 5,
+  "offset": 0,
+  "topics": [
+    {
+      "topic_id": 1042,
+      "rank": 1,
+      "title": "Giá vàng trong nước biến động",
+      "keywords": [
+        "giá vàng",
+        "SJC",
+        "thị trường"
+      ],
+      "status": "rising",
+      "score": 92,
+      "article_count": 148,
+      "source_count": 4,
+      "growth_pct": 68,
+      "sparkline": [
+        5,
+        6,
+        8,
+        9,
+        10,
+        12,
+        11,
+        6,
+        3,
+        14,
+        48,
+        16
+      ]
+    },
+    {
+      "topic_id": 1057,
+      "rank": 2,
+      "title": "Mưa lớn tại miền Trung",
+      "keywords": [
+        "mưa lớn",
+        "miền Trung",
+        "cảnh báo"
+      ],
+      "status": "new",
+      "score": 87,
+      "article_count": 96,
+      "source_count": 4,
+      "growth_pct": null,
+      "sparkline": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        5,
+        4,
+        3,
+        18,
+        41,
+        23
+      ]
+    },
+    {
+      "topic_id": 1013,
+      "rank": 3,
+      "title": "Ứng dụng AI trong giáo dục",
+      "keywords": [
+        "AI",
+        "giáo dục",
+        "công nghệ"
+      ],
+      "status": "rising",
+      "score": 74,
+      "article_count": 78,
+      "source_count": 3,
+      "growth_pct": 24,
+      "sparkline": [
+        4,
+        6,
+        7,
+        8,
+        7,
+        9,
+        6,
+        3,
+        2,
+        6,
+        12,
+        8
+      ]
+    },
+    {
+      "topic_id": 988,
+      "rank": 4,
+      "title": "Thị trường xe điện Việt Nam",
+      "keywords": [
+        "xe điện",
+        "thị trường",
+        "hạ tầng sạc"
+      ],
+      "status": "stable",
+      "score": 61,
+      "article_count": 54,
+      "source_count": 3,
+      "growth_pct": 6,
+      "sparkline": [
+        4,
+        5,
+        5,
+        6,
+        5,
+        6,
+        5,
+        2,
+        1,
+        4,
+        7,
+        4
+      ]
+    },
+    {
+      "topic_id": 951,
+      "rank": 5,
+      "title": "Điều chỉnh lịch thi tốt nghiệp THPT",
+      "keywords": [
+        "kỳ thi",
+        "THPT",
+        "lịch thi"
+      ],
+      "status": "falling",
+      "score": 48,
+      "article_count": 39,
+      "source_count": 2,
+      "growth_pct": -12,
+      "sparkline": [
+        5,
+        5,
+        4,
+        4,
+        4,
+        3,
+        3,
+        1,
+        1,
+        3,
+        4,
+        2
+      ]
+    }
+  ]
+}

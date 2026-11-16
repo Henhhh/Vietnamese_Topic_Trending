@@ -1,0 +1,190 @@
+{
+  "data_as_of": "2026-11-16T08:15:00+07:00",
+  "range": "24h",
+  "topic": {
+    "topic_id": 1042,
+    "title": "Giá vàng trong nước biến động",
+    "keywords": [
+      "giá vàng",
+      "SJC",
+      "thị trường"
+    ],
+    "status": "rising",
+    "first_seen_at": "2026-11-14T06:15:00+07:00",
+    "updated_at": "2026-11-16T08:15:00+07:00",
+    "score": 92,
+    "article_count": 148,
+    "source_count": 4,
+    "source_total": 4,
+    "growth_pct": 68,
+    "growth_baseline": "previous_period"
+  },
+  "timeline": {
+    "bucket": "2h",
+    "points": [
+      {
+        "start": "2026-11-15T10:00:00+07:00",
+        "count": 5,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T12:00:00+07:00",
+        "count": 6,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T14:00:00+07:00",
+        "count": 8,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T16:00:00+07:00",
+        "count": 9,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T18:00:00+07:00",
+        "count": 10,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T20:00:00+07:00",
+        "count": 12,
+        "complete": true
+      },
+      {
+        "start": "2026-11-15T22:00:00+07:00",
+        "count": 11,
+        "complete": true
+      },
+      {
+        "start": "2026-11-16T00:00:00+07:00",
+        "count": 6,
+        "complete": true
+      },
+      {
+        "start": "2026-11-16T02:00:00+07:00",
+        "count": 3,
+        "complete": true
+      },
+      {
+        "start": "2026-11-16T04:00:00+07:00",
+        "count": 14,
+        "complete": true
+      },
+      {
+        "start": "2026-11-16T06:00:00+07:00",
+        "count": 48,
+        "complete": true
+      },
+      {
+        "start": "2026-11-16T08:00:00+07:00",
+        "count": 16,
+        "complete": false
+      }
+    ]
+  },
+  "representative_article": {
+    "url": "https://vnexpress.net/gia-vang-trong-nuoc-bien-dong-manh-phien-sang-4990001.html",
+    "title": "Giá vàng trong nước biến động mạnh trong phiên sáng",
+    "excerpt": "Giá vàng miếng trong nước được điều chỉnh nhiều lần trong phiên sáng, khi thị trường quốc tế tiếp tục có những biến động đáng chú ý.",
+    "source": {
+      "code": "vnexpress",
+      "name": "VnExpress"
+    },
+    "published_at": "2026-11-16T07:35:00+07:00"
+  },
+  "articles": {
+    "total": 148,
+    "limit": 3,
+    "offset": 0,
+    "items": [
+      {
+        "url": "https://tuoitre.vn/gia-vang-sjc-tang-tro-lai-sau-phien-dieu-chinh-20261116080200.html",
+        "title": "Giá vàng SJC tăng trở lại sau phiên điều chỉnh",
+        "excerpt": "Giá vàng miếng SJC sáng nay tăng ở nhiều doanh nghiệp, chênh lệch mua bán vẫn duy trì ở mức cao.",
+        "source": {
+          "code": "tuoitre",
+          "name": "Tuổi Trẻ"
+        },
+        "published_at": "2026-11-16T08:02:00+07:00"
+      },
+      {
+        "url": "https://thanhnien.vn/thi-truong-vang-trong-nuoc-tiep-tuc-thu-hut-su-chu-y-185261116074800.html",
+        "title": "Thị trường vàng trong nước tiếp tục thu hút sự chú ý",
+        "excerpt": "Diễn biến mới của giá vàng trong nước được ghi nhận tại các hệ thống kinh doanh lớn.",
+        "source": {
+          "code": "thanhnien",
+          "name": "Thanh Niên"
+        },
+        "published_at": "2026-11-16T07:48:00+07:00"
+      },
+      {
+        "url": "https://dantri.com.vn/kinh-doanh/nhung-yeu-to-dang-tac-dong-den-gia-vang-20261116065500.html",
+        "title": "Những yếu tố đang tác động đến giá vàng",
+        "excerpt": "",
+        "source": {
+          "code": "dantri",
+          "name": "Dân trí"
+        },
+        "published_at": "2026-11-16T06:55:00+07:00"
+      }
+    ]
+  },
+  "related_keywords": [
+    {
+      "keyword": "giá vàng",
+      "count": 42
+    },
+    {
+      "keyword": "SJC",
+      "count": 36
+    },
+    {
+      "keyword": "thị trường",
+      "count": 28
+    },
+    {
+      "keyword": "giá vàng miếng",
+      "count": 21
+    },
+    {
+      "keyword": "biến động",
+      "count": 18
+    },
+    {
+      "keyword": "trong nước",
+      "count": 15
+    }
+  ],
+  "source_distribution": [
+    {
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "article_count": 45
+    },
+    {
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "article_count": 39
+    },
+    {
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "article_count": 34
+    },
+    {
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "article_count": 30
+    }
+  ]
+}

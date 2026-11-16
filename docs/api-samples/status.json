@@ -1,0 +1,443 @@
+{
+  "data_as_of": "2026-11-16T08:15:00+07:00",
+  "summary": {
+    "feeds_total": 20,
+    "feeds_ok": 19,
+    "feeds_error": 1,
+    "feeds_no_data": 0
+  },
+  "warnings": [
+    {
+      "feed_id": 20,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "the-thao",
+        "name": "Thể thao"
+      },
+      "last_success_at": "2026-11-16T08:00:00+07:00"
+    }
+  ],
+  "feeds": [
+    {
+      "feed_id": 1,
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "category": {
+        "code": "thoi-su",
+        "name": "Thời sự"
+      },
+      "rss_url": "https://vnexpress.net/rss/thoi-su.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:30:10+07:00",
+      "new_article_count": 14,
+      "error_message": null
+    },
+    {
+      "feed_id": 2,
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "category": {
+        "code": "the-gioi",
+        "name": "Thế giới"
+      },
+      "rss_url": "https://vnexpress.net/rss/the-gioi.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:30:19+07:00",
+      "new_article_count": 11,
+      "error_message": null
+    },
+    {
+      "feed_id": 3,
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "category": {
+        "code": "kinh-te",
+        "name": "Kinh tế"
+      },
+      "rss_url": "https://vnexpress.net/rss/kinh-doanh.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:30:28+07:00",
+      "new_article_count": 9,
+      "error_message": null
+    },
+    {
+      "feed_id": 4,
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "category": {
+        "code": "cong-nghe",
+        "name": "Công nghệ"
+      },
+      "rss_url": "https://vnexpress.net/rss/khoa-hoc-cong-nghe.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:30:37+07:00",
+      "new_article_count": 4,
+      "error_message": null
+    },
+    {
+      "feed_id": 5,
+      "source": {
+        "code": "vnexpress",
+        "name": "VnExpress"
+      },
+      "category": {
+        "code": "the-thao",
+        "name": "Thể thao"
+      },
+      "rss_url": "https://vnexpress.net/rss/the-thao.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:30:46+07:00",
+      "new_article_count": 12,
+      "error_message": null
+    },
+    {
+      "feed_id": 6,
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "category": {
+        "code": "thoi-su",
+        "name": "Thời sự"
+      },
+      "rss_url": "https://tuoitre.vn/thoi-su.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:31:10+07:00",
+      "new_article_count": 12,
+      "error_message": null
+    },
+    {
+      "feed_id": 7,
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "category": {
+        "code": "the-gioi",
+        "name": "Thế giới"
+      },
+      "rss_url": "https://tuoitre.vn/the-gioi.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:31:19+07:00",
+      "new_article_count": 10,
+      "error_message": null
+    },
+    {
+      "feed_id": 8,
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "category": {
+        "code": "kinh-te",
+        "name": "Kinh tế"
+      },
+      "rss_url": "https://tuoitre.vn/kinh-doanh.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:31:28+07:00",
+      "new_article_count": 8,
+      "error_message": null
+    },
+    {
+      "feed_id": 9,
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "category": {
+        "code": "cong-nghe",
+        "name": "Công nghệ"
+      },
+      "rss_url": "https://tuoitre.vn/nhip-song-so.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:31:37+07:00",
+      "new_article_count": 5,
+      "error_message": null
+    },
+    {
+      "feed_id": 10,
+      "source": {
+        "code": "tuoitre",
+        "name": "Tuổi Trẻ"
+      },
+      "category": {
+        "code": "the-thao",
+        "name": "Thể thao"
+      },
+      "rss_url": "https://tuoitre.vn/the-thao.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:31:46+07:00",
+      "new_article_count": 13,
+      "error_message": null
+    },
+    {
+      "feed_id": 11,
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "category": {
+        "code": "thoi-su",
+        "name": "Thời sự"
+      },
+      "rss_url": "https://thanhnien.vn/rss/thoi-su.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:32:10+07:00",
+      "new_article_count": 11,
+      "error_message": null
+    },
+    {
+      "feed_id": 12,
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "category": {
+        "code": "the-gioi",
+        "name": "Thế giới"
+      },
+      "rss_url": "https://thanhnien.vn/rss/the-gioi.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:32:19+07:00",
+      "new_article_count": 9,
+      "error_message": null
+    },
+    {
+      "feed_id": 13,
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "category": {
+        "code": "kinh-te",
+        "name": "Kinh tế"
+      },
+      "rss_url": "https://thanhnien.vn/rss/kinh-te.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:32:28+07:00",
+      "new_article_count": 10,
+      "error_message": null
+    },
+    {
+      "feed_id": 14,
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "category": {
+        "code": "cong-nghe",
+        "name": "Công nghệ"
+      },
+      "rss_url": "https://thanhnien.vn/rss/cong-nghe.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:32:37+07:00",
+      "new_article_count": 6,
+      "error_message": null
+    },
+    {
+      "feed_id": 15,
+      "source": {
+        "code": "thanhnien",
+        "name": "Thanh Niên"
+      },
+      "category": {
+        "code": "the-thao",
+        "name": "Thể thao"
+      },
+      "rss_url": "https://thanhnien.vn/rss/the-thao.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:32:46+07:00",
+      "new_article_count": 12,
+      "error_message": null
+    },
+    {
+      "feed_id": 16,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "thoi-su",
+        "name": "Thời sự"
+      },
+      "rss_url": "https://dantri.com.vn/rss/thoi-su.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:33:10+07:00",
+      "new_article_count": 10,
+      "error_message": null
+    },
+    {
+      "feed_id": 17,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "the-gioi",
+        "name": "Thế giới"
+      },
+      "rss_url": "https://dantri.com.vn/rss/the-gioi.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:33:19+07:00",
+      "new_article_count": 9,
+      "error_message": null
+    },
+    {
+      "feed_id": 18,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "kinh-te",
+        "name": "Kinh tế"
+      },
+      "rss_url": "https://dantri.com.vn/rss/kinh-doanh.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:33:28+07:00",
+      "new_article_count": 8,
+      "error_message": null
+    },
+    {
+      "feed_id": 19,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "cong-nghe",
+        "name": "Công nghệ"
+      },
+      "rss_url": "https://dantri.com.vn/rss/cong-nghe.rss",
+      "status": "ok",
+      "last_fetched_at": "2026-11-16T08:33:37+07:00",
+      "new_article_count": 5,
+      "error_message": null
+    },
+    {
+      "feed_id": 20,
+      "source": {
+        "code": "dantri",
+        "name": "Dân trí"
+      },
+      "category": {
+        "code": "the-thao",
+        "name": "Thể thao"
+      },
+      "rss_url": "https://dantri.com.vn/rss/the-thao.rss",
+      "status": "error",
+      "last_fetched_at": "2026-11-16T08:00:00+07:00",
+      "new_article_count": 0,
+      "error_message": "Kết nối quá thời gian"
+    }
+  ],
+  "latest_run": {
+    "run_id": 412,
+    "started_at": "2026-11-16T08:30:00+07:00",
+    "finished_at": null,
+    "status": "running",
+    "new_article_count": 178,
+    "duplicate_count": 29,
+    "failed_feed_count": 1,
+    "error_message": null,
+    "steps": [
+      {
+        "step": "collect",
+        "status": "completed",
+        "started_at": "2026-11-16T08:30:00+07:00",
+        "finished_at": "2026-11-16T08:34:00+07:00"
+      },
+      {
+        "step": "nlp",
+        "status": "completed",
+        "started_at": "2026-11-16T08:34:00+07:00",
+        "finished_at": "2026-11-16T08:38:00+07:00"
+      },
+      {
+        "step": "cluster",
+        "status": "running",
+        "started_at": "2026-11-16T08:38:00+07:00",
+        "finished_at": null
+      },
+      {
+        "step": "score",
+        "status": "pending",
+        "started_at": null,
+        "finished_at": null
+      }
+    ]
+  },
+  "last_completed_run": {
+    "run_id": 411,
+    "started_at": "2026-11-16T08:15:00+07:00",
+    "finished_at": "2026-11-16T08:28:00+07:00",
+    "status": "partial",
+    "new_article_count": 214,
+    "duplicate_count": 37,
+    "failed_feed_count": 1,
+    "error_message": null
+  },
+  "recent_runs": [
+    {
+      "run_id": 412,
+      "started_at": "2026-11-16T08:30:00+07:00",
+      "finished_at": null,
+      "status": "running",
+      "new_article_count": 178,
+      "duplicate_count": 29,
+      "failed_feed_count": 1,
+      "error_message": null
+    },
+    {
+      "run_id": 411,
+      "started_at": "2026-11-16T08:15:00+07:00",
+      "finished_at": "2026-11-16T08:28:00+07:00",
+      "status": "partial",
+      "new_article_count": 214,
+      "duplicate_count": 37,
+      "failed_feed_count": 1,
+      "error_message": null
+    },
+    {
+      "run_id": 410,
+      "started_at": "2026-11-16T08:00:00+07:00",
+      "finished_at": "2026-11-16T08:12:00+07:00",
+      "status": "completed",
+      "new_article_count": 186,
+      "duplicate_count": 24,
+      "failed_feed_count": 0,
+      "error_message": null
+    },
+    {
+      "run_id": 409,
+      "started_at": "2026-11-16T07:45:00+07:00",
+      "finished_at": "2026-11-16T07:46:00+07:00",
+      "status": "failed",
+      "new_article_count": 0,
+      "duplicate_count": 0,
+      "failed_feed_count": 0,
+      "error_message": "Không kết nối được cơ sở dữ liệu"
+    },
+    {
+      "run_id": 408,
+      "started_at": "2026-11-16T07:30:00+07:00",
+      "finished_at": "2026-11-16T07:42:00+07:00",
+      "status": "completed",
+      "new_article_count": 203,
+      "duplicate_count": 31,
+      "failed_feed_count": 0,
+      "error_message": null
+    }
+  ]
+}
