@@ -2,13 +2,13 @@
 
 **Report submission:** 13 January 2027 · **Defense:** 20 January 2027
 
-Legend: ✅ done · 🟡 in progress · ⬜ not started
+Legend: ✅ done · 🟡 in progress · ⬜ not started · Last updated: 16 November 2026
 
 ## Pipeline roles (Persons 2–5)
 
 | Milestone | Person 2 — Data | Person 3 — NLP | Person 4 — Topic Detection | Person 5 — Trend Analysis |
 |---|---|---|---|---|
-| **1. Common foundation** | 🟡 RSS direction set; real sources not finalized | 🟡 Vietnamese processing approach finalized | 🟡 TF-IDF + cosine proposed as baseline | 🟡 Scoring factors identified; formula not finalized |
+| **1. Common foundation** | ✅ RSS direction set; 4 sources × 5 categories (20 feeds) finalized | 🟡 Vietnamese processing approach finalized | 🟡 TF-IDF + cosine proposed as baseline | 🟡 Scoring factors identified; formula not finalized |
 | **2. Sample outputs** | ⬜ Sample articles with source, URL, title, publish date | ⬜ Sample cleaned text and keywords | ⬜ Sample cluster with `topic_id` and article list | ⬜ Sample score, growth rate and article-count time series |
 | **3. Core features** | ⬜ Read RSS, normalize, deduplicate | ⬜ Segment words, extract keywords, label clusters | ⬜ Group articles on the same event; keep cluster IDs across runs | ⬜ Rank topics, handle new topics, store score history |
 | **4. Integration** | ⬜ Feed normalized articles into the pipeline | ⬜ Return keywords and topic labels | ⬜ Return clusters and representative articles | ⬜ Return ranking table and chart data |
@@ -20,8 +20,8 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started
 | Milestone | Person 1 — Lead & Integration | Person 6 — Backend & Database | Person 7 — Frontend |
 |---|---|---|---|
 | **1. Common foundation** | ✅ Finalized Vietnamese scope, 3 MVP pages and 7 roles | 🟡 FastAPI + PostgreSQL proposed; schema not confirmed | ✅ Figma Make has all 3 desktop pages |
-| **2. Sample outputs** | ⬜ Finalize one shared sample dataset | ⬜ Finalize schema and sample JSON for the 3 pages | 🟡 Illustrative data in Figma; not yet checked against API JSON |
-| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 Prototype exists; frontend not yet confirmed in the team repo |
+| **2. Sample outputs** | ⬜ Finalize one shared sample dataset | 🟡 Sample JSON for the 3 pages drafted in [api-samples](api-samples/); awaiting review, schema not finalized | 🟡 Sample JSON exists; frontend not yet built against it |
+| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 Frontend scaffold in the team repo (Vite + React Router, 3 routes); pages not built yet |
 | **4. Integration** | ⬜ Trial run from RSS to dashboard | ⬜ Replace the sample API with real data | ⬜ Connect the API; returning to the list keeps the filters |
 | **5. Testing** | ⬜ Test the full flow, including when one source fails | ⬜ Test filters, pagination and error responses | ⬜ Test small screens, loading/empty/error states and original-article links |
 | **6. Git / handover** | ⬜ Finalize the demo and the shared run guide | ⬜ Hand over schema, API docs and DB setup steps | ⬜ Hand over frontend, API config and demo script |
@@ -38,6 +38,6 @@ Added on 16 November 2026 after the source list and the prototype inconsistencie
 | **4 — Topic Detection** | ⬜ Keep `topic_id` stable across runs (required by the URL scheme)<br>⬜ Hand-check clustering on title + description after the trial |
 | **5 — Trend Analysis** | ⬜ One trend score per topic, computed over the latest 24 hours<br>⬜ Growth for 6 giờ compares with the same hours on the previous day<br>⬜ Set the minimum baseline count below which no percentage is shown |
 | **6 — Backend & Database** | ⬜ Store article counts per hour<br>⬜ Store start time, end time and status for each run<br>⬜ API accepts `range`, `source`, `sort`, `q` |
-| **7 — Frontend** | ⬜ Update the prototype to match the decisions<br>⬜ Add React Router (routes and filters in the URL)<br>⬜ Draw the last, incomplete chart bucket as a dashed line |
+| **7 — Frontend** | ⬜ Build the pages to match the decisions in [UI_STRUCTURE.md](UI_STRUCTURE.md) (Figma is not updated; the docs are the reference)<br>🟡 React Router: 3 routes and the not-found page are in; filters in the URL still to do<br>⬜ Draw the last, incomplete chart bucket as a dashed line |
 
 Thresholds waiting for trial data: description too short, clustering error rate too high, minimum baseline count.
