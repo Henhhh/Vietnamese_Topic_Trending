@@ -227,3 +227,32 @@ describe('Top bar', () => {
     expect(screen.queryByText('Đang cập nhật…')).toBeNull()
   })
 })
+
+describe('Original-article links', () => {
+  // Every "Đọc bài gốc" link must open the real article URL in a new tab, safely.
+  const expectSafeLinks = (links, urls) => {
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(urls)
+    for (const a of links) {
+      expect(a.getAttribute('target')).toBe('_blank')
+      expect(a.getAttribute('rel')).toBe('noopener noreferrer')
+    }
+  }
+
+  it('points each link at the article URL and opens it in a new tab', async () => {
+    const detail = await real.getTopic(1042)
+    renderPage('/topics/1042', '/topics/:topicId', <TopicDetailPage />)
+    await screen.findByText('Giá vàng SJC tăng trở lại sau phiên điều chỉnh')
+
+    const links = screen.getAllByRole('link', { name: /Đọc bài gốc/ })
+    const { items } = await real.getTopicArticles(1042)
+    expectSafeLinks(links, [detail.representative_article.url, ...items.map((a) => a.url)])
+    expect(links.every((a) => /^https:\/\//.test(a.getAttribute('href')))).toBe(true)
+  })
+
+  it('uses the same attributes for any article, whatever its URL', () => {
+    const article = { url: 'https://example.com/bai?x=1', title: 'T', excerpt: 'E', source: { code: 's', name: 'S' }, published_at: '2026-11-16T08:00:00+07:00' }
+    api.getTopicArticles.mockResolvedValue({ total: 1, limit: 10, offset: 0, items: [article] })
+    render(<RelatedArticles topicId={1} sources={[]} total={1} sourceCount={1} />)
+    return screen.findByRole('link', { name: /Đọc bài gốc/ }).then((a) => expectSafeLinks([a], [article.url]))
+  })
+})
