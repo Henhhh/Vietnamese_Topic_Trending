@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { getStatus } from '../api'
-import { FEED_STATUS, RUN_STATUS, STEP_NAME, STEP_STATUS, formatDateTime, formatNumber, formatTime, label } from '../labels'
+import Icon from '../components/Icon'
+import Metric from '../components/Metric'
+import PageIntro from '../components/PageIntro'
+import StatusBadge from '../components/StatusBadge'
+import { STEP_NAME, formatDateTime, formatDay, formatNumber, formatTime, label } from '../labels'
 
-const badge = (map, code) => <span className={`badge badge-${code}`}>{label(map, code)}</span>
+const STEP_ICON = { collect: 'database', nlp: 'file', cluster: 'grid', score: 'trend' }
 
 function stepTime(step) {
   if (step.finished_at) return `${formatTime(step.started_at)}–${formatTime(step.finished_at)}`
@@ -19,6 +23,24 @@ function runSummary(run) {
 
 // "08:15–08:28" for a finished run.
 const runSpan = (run) => `${formatTime(run.started_at)}–${formatTime(run.finished_at)}`
+
+function PipelineStep({ step }) {
+  const done = step.status === 'completed'
+  const cls = `pipeline-step${done ? ' done' : ''}${step.status === 'running' ? ' active' : ''}`
+  return (
+    <div className={cls}>
+      <div className="pipeline-line" />
+      <div className="pipeline-icon">
+        <Icon name={done ? 'check' : STEP_ICON[step.step] ?? 'file'} size={17} />
+      </div>
+      <div className="pipeline-copy">
+        <strong>{label(STEP_NAME, step.step)}</strong>
+        <span>{stepTime(step)}</span>
+      </div>
+      <StatusBadge kind="step" status={step.status} />
+    </div>
+  )
+}
 
 export default function StatusPage() {
   const [state, setState] = useState({ status: 'loading', data: null })
@@ -37,8 +59,8 @@ export default function StatusPage() {
   if (status === 'error') {
     return (
       <p className="state">
-        Không tải được dữ liệu.{' '}
-        <button type="button" onClick={() => setAttempt((n) => n + 1)}>
+        Không tải được dữ liệu.
+        <button type="button" className="secondary-button" onClick={() => setAttempt((n) => n + 1)}>
           Thử lại
         </button>
       </p>
@@ -49,54 +71,68 @@ export default function StatusPage() {
   const { summary, warnings, feeds, latest_run: run, last_completed_run: done, recent_runs: runs } = data
   const okPct = Math.round((summary.feeds_ok / summary.feeds_total) * 100)
   const dupPct = (done.duplicate_count / (done.new_article_count + done.duplicate_count)) * 100
-  const cards = [
-    { title: 'Feed hoạt động', value: `${summary.feeds_ok} / ${summary.feeds_total}`, note: `${okPct}% tổng số feed` },
-    {
-      title: 'Feed gặp lỗi',
-      value: summary.feeds_error,
-      note: summary.feeds_error > 0 ? 'Cần kiểm tra kết nối' : 'Không có lỗi',
-    },
-    {
-      title: 'Bài mới lần hoàn thành gần nhất',
-      value: formatNumber(done.new_article_count),
-      note: `Lúc ${formatDateTime(done.started_at)}`,
-    },
-    {
-      title: 'Bài trùng đã loại',
-      value: formatNumber(done.duplicate_count),
-      note: `${dupPct.toLocaleString('vi-VN', { maximumFractionDigits: 1 })}% dữ liệu thu thập`,
-    },
-  ]
+  // Runs from an earlier day show the date as well as the time.
+  const runTime = (r) =>
+    formatDay(r.started_at) === formatDay(run.started_at)
+      ? formatTime(r.started_at)
+      : `${formatDay(r.started_at)} ${formatTime(r.started_at)}`
 
   return (
     <>
-      <h1>Theo dõi thu thập &amp; xử lý</h1>
-      <p className="subtitle">Giám sát tình trạng nguồn tin và các bước xử lý dữ liệu gần nhất</p>
+      <PageIntro
+        eyebrow="Trạng thái hệ thống"
+        title="Theo dõi thu thập & xử lý"
+        subtitle="Giám sát tình trạng nguồn tin và các bước xử lý dữ liệu gần nhất"
+      />
 
       {warnings.map((w) => (
-        <div className="banner" role="alert" key={w.feed_id}>
-          Dữ liệu từ {w.source.name} ({w.category.name}) có thể đã cũ — hiển thị kết quả khả dụng gần nhất từ{' '}
-          {formatDateTime(w.last_success_at)}. Hệ thống sẽ tự thử lại ở lần chạy kế tiếp.
+        <div className="stale-warning" role="alert" key={w.feed_id}>
+          <Icon name="alert" size={18} />
+          <div>
+            <strong>
+              Dữ liệu từ {w.source.name} ({w.category.name}) có thể đã cũ
+            </strong>
+            <span>
+              Hiển thị kết quả khả dụng gần nhất từ {formatDateTime(w.last_success_at)}. Hệ thống sẽ tự thử lại ở lần
+              chạy kế tiếp.
+            </span>
+          </div>
         </div>
       ))}
 
-      <section className="cards">
-        {cards.map((c) => (
-          <div className="card" key={c.title}>
-            <div className="card-title">{c.title}</div>
-            <div className="card-value">{c.value}</div>
-            <div className="card-note">{c.note}</div>
-          </div>
-        ))}
-      </section>
+      <div className="metrics-grid four system-metrics">
+        <Metric label="Feed hoạt động" value={`${summary.feeds_ok} / ${summary.feeds_total}`} helper={`${okPct}% tổng số feed`} />
+        <Metric
+          label="Feed gặp lỗi"
+          value={summary.feeds_error}
+          helper={summary.feeds_error > 0 ? 'Cần kiểm tra kết nối' : 'Không có lỗi'}
+          alert={summary.feeds_error > 0}
+        />
+        <Metric
+          label="Bài mới lần hoàn thành gần nhất"
+          value={formatNumber(done.new_article_count)}
+          helper={`Lúc ${formatDateTime(done.started_at)}`}
+        />
+        <Metric
+          label="Bài trùng đã loại"
+          value={formatNumber(done.duplicate_count)}
+          helper={`${dupPct.toLocaleString('vi-VN', { maximumFractionDigits: 1 })}% dữ liệu thu thập`}
+        />
+      </div>
 
-      <section className="panel">
-        <h2>Tình trạng nguồn tin</h2>
-        <div className="table-sub">
-          Cập nhật tự động mỗi 15 phút · {summary.feeds_ok} / {summary.feeds_total} feed đọc được ở lần chạy gần nhất
+      <section className="panel system-panel">
+        <div className="section-heading">
+          <div>
+            <h2>Tình trạng nguồn tin</h2>
+            <p>Cập nhật tự động mỗi 15 phút</p>
+          </div>
+          <span className="last-success">
+            <Icon name="check" size={15} />
+            {summary.feeds_ok} / {summary.feeds_total} feed đọc được ở lần chạy gần nhất
+          </span>
         </div>
-        <div className="table-wrap">
-          <table className="feeds">
+        <div className="desktop-table-wrap">
+          <table className="source-table">
             <thead>
               <tr>
                 <th>Nguồn</th>
@@ -110,14 +146,24 @@ export default function StatusPage() {
             <tbody>
               {feeds.map((f) => (
                 <tr key={f.feed_id}>
-                  <td>
-                    {f.source.name} <span className="muted">· {f.category.name}</span>
+                  <td className="cell-name">
+                    <strong>{f.source.name}</strong> <span className="muted">· {f.category.name}</span>
                   </td>
-                  <td className="url">{f.rss_url}</td>
-                  <td>{badge(FEED_STATUS, f.status)}</td>
-                  <td>{f.last_fetched_at ? formatDateTime(f.last_fetched_at) : 'Chưa thu thập'}</td>
-                  <td>{f.new_article_count}</td>
-                  <td>{f.error_message ?? '—'}</td>
+                  <td className="cell-url">
+                    <span className="url-cell" title={f.rss_url}>
+                      {f.rss_url}
+                    </span>
+                  </td>
+                  <td className="cell-status">
+                    <StatusBadge kind="feed" status={f.status} />
+                  </td>
+                  <td className="cell-time">{f.last_fetched_at ? formatDateTime(f.last_fetched_at) : 'Chưa thu thập'}</td>
+                  <td className="cell-count">{f.new_article_count}</td>
+                  <td
+                    className={`cell-error${f.status === 'error' ? ' error-text' : ''}${f.error_message ? '' : ' is-empty'}`}
+                  >
+                    {f.error_message ?? '—'}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -125,45 +171,47 @@ export default function StatusPage() {
         </div>
       </section>
 
-      <div className="status-grid">
-        <section className="panel">
-          <div className="panel-head">
-            <h2>Luồng xử lý dữ liệu</h2>
-            {badge(RUN_STATUS, run.status)}
+      <div className="system-lower-grid">
+        <section className="panel pipeline-panel">
+          <div className="section-heading">
+            <div>
+              <h2>Luồng xử lý dữ liệu</h2>
+              <p>
+                {run.status === 'running' ? 'Lần chạy hiện tại' : 'Lần chạy gần nhất'} bắt đầu lúc{' '}
+                {formatTime(run.started_at)}
+              </p>
+            </div>
+            <StatusBadge kind="run" status={run.status} />
           </div>
-          <div className="table-sub">
-            {run.status === 'running' ? 'Lần chạy hiện tại' : 'Lần chạy gần nhất'} bắt đầu lúc{' '}
-            {formatTime(run.started_at)}
-          </div>
-          <ol className="steps">
+          <div className="pipeline">
             {run.steps.map((s) => (
-              <li key={s.step}>
-                <div>
-                  <strong>{label(STEP_NAME, s.step)}</strong>
-                  <div className="muted">{stepTime(s)}</div>
-                </div>
-                {badge(STEP_STATUS, s.status)}
-              </li>
+              <PipelineStep key={s.step} step={s} />
             ))}
-          </ol>
+          </div>
         </section>
 
-        <section className="panel">
-          <h2>Nhật ký gần đây</h2>
-          <ul className="runs">
-            {runs.slice(0, 5).map((r) => (
-              <li key={r.run_id}>
-                <div>
-                  <strong>{formatDateTime(r.started_at)}</strong>
-                  <div className="muted">{runSummary(r)}</div>
-                </div>
-                {badge(RUN_STATUS, r.status)}
-              </li>
-            ))}
-          </ul>
-          <div className="table-sub">
-            Lần chạy gần nhất: {formatTime(run.started_at)}
-            {run.status === 'running' && ' (đang chạy)'} · Lần hoàn thành gần nhất: {runSpan(done)}
+        <section className="panel runs-panel">
+          <div className="section-heading">
+            <div>
+              <h2>Nhật ký gần đây</h2>
+              <p>{Math.min(5, runs.length)} lần chạy mới nhất</p>
+            </div>
+          </div>
+          {runs.slice(0, 5).map((r) => (
+            <div className="run-row" key={r.run_id}>
+              <time dateTime={r.started_at} title={formatDateTime(r.started_at)}>
+                {runTime(r)}
+              </time>
+              <StatusBadge kind="run" status={r.status} />
+              <span>{runSummary(r)}</span>
+            </div>
+          ))}
+          <div className="attempt-note">
+            <Icon name="info" size={15} />
+            <span>
+              Lần chạy gần nhất: <strong>{formatTime(run.started_at)}</strong>
+              {run.status === 'running' && ' (đang chạy)'} · Lần hoàn thành gần nhất: <strong>{runSpan(done)}</strong>
+            </span>
           </div>
         </section>
       </div>

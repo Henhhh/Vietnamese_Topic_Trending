@@ -1,51 +1,49 @@
-import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import Icon from './Icon'
 
-const icon = { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, 'aria-hidden': true }
-const OverviewIcon = () => (
-  <svg {...icon}>
-    <path d="M3 3v18h18" />
-    <path d="M7 15l4-5 3 3 5-7" />
-  </svg>
-)
-const StatusIcon = () => (
-  <svg {...icon}>
-    <path d="M3 12h4l3-8 4 16 3-8h4" />
-  </svg>
-)
-
-const SCORE_NOTE = 'Điểm xu hướng: Chỉ số tương đối 0–100 dựa trên lượng bài, mức tăng, độ mới và đa dạng nguồn.'
-
-export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false)
+// Fixed on wide screens; below 820 px it becomes a drawer opened from the top bar.
+export default function Sidebar({ open, close }) {
   return (
-    <nav className={collapsed ? 'sidebar collapsed' : 'sidebar'} aria-label="Điều hướng chính">
-      <div className="logo">{collapsed ? 'VT' : 'VietTrend'}</div>
+    <>
+      {open && <button type="button" className="drawer-overlay" onClick={close} aria-label="Đóng trình đơn" />}
+      <aside className={open ? 'sidebar drawer-open' : 'sidebar'}>
+        <div className="side-top">
+          <div className="logo">
+            <span className="logo-mark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span>VietTrend</span>
+          </div>
+          <button type="button" className="icon-button drawer-close" onClick={close} aria-label="Đóng trình đơn">
+            <Icon name="close" />
+          </button>
+        </div>
 
-      <div className="nav-group">
-        <div className="nav-heading">KHÁM PHÁ</div>
-        <NavLink to="/" end title="Tổng quan">
-          <OverviewIcon />
-          <span className="nav-text">Tổng quan</span>
-        </NavLink>
-        <NavLink to="/status" title="Trạng thái hệ thống">
-          <StatusIcon />
-          <span className="nav-text">Trạng thái hệ thống</span>
-        </NavLink>
-      </div>
+        <nav aria-label="Điều hướng chính">
+          <div className="nav-label">KHÁM PHÁ</div>
+          <NavLink to="/" end className="nav-item" onClick={close}>
+            <Icon name="grid" />
+            <span>Tổng quan</span>
+          </NavLink>
+          <NavLink to="/status" className="nav-item" onClick={close}>
+            <Icon name="activity" />
+            <span>Trạng thái hệ thống</span>
+          </NavLink>
+        </nav>
 
-      <div className="sidebar-note">{SCORE_NOTE}</div>
-      <div className="sidebar-foot">ĐỒ ÁN PHÂN TÍCH TIN TỨC</div>
-
-      <button
-        type="button"
-        className="collapse-btn"
-        aria-expanded={!collapsed}
-        aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
-        onClick={() => setCollapsed((c) => !c)}
-      >
-        {collapsed ? '»' : '« Thu gọn'}
-      </button>
-    </nav>
+        <div className="score-note">
+          <div className="score-note-icon">
+            <Icon name="trend" size={16} />
+          </div>
+          <div>
+            <strong>Điểm xu hướng</strong>
+            <p>Chỉ số tương đối 0–100 dựa trên lượng bài, mức tăng, độ mới và đa dạng nguồn.</p>
+          </div>
+        </div>
+        <div className="university-tag">Đồ án phân tích tin tức</div>
+      </aside>
+    </>
   )
 }

@@ -59,14 +59,14 @@ describe('Overview', () => {
 
   it('shows the empty state when nothing matches, and "Xóa bộ lọc" brings the list back', async () => {
     renderPage('/?q=zzzz', '/', <OverviewPage />)
-    await screen.findByText(/Không có chủ đề phù hợp/)
+    await screen.findByText(/Không tìm thấy chủ đề phù hợp/)
     expect(screen.getByText(/0 kết quả/)).toBeTruthy()
     expect(screen.queryByText('Xem thêm chủ đề')).toBeNull()
 
     const buttons = screen.getAllByRole('button', { name: 'Xóa bộ lọc' })
     fireEvent.click(buttons[buttons.length - 1])
     await screen.findByText('Giá vàng trong nước biến động')
-    expect(screen.queryByText(/Không có chủ đề phù hợp/)).toBeNull()
+    expect(screen.queryByText(/Không tìm thấy chủ đề phù hợp/)).toBeNull()
   })
 
   it('keeps the loaded rows and shows an error when "Xem thêm chủ đề" fails', async () => {
@@ -233,7 +233,8 @@ describe('Top bar', () => {
 
   it('shows the data-as-of time and the sample badge', async () => {
     show()
-    await screen.findByText(/Dữ liệu tính đến 08:15, 16\/11\/2026/)
+    await screen.findByText('Dữ liệu tính đến')
+    expect(screen.getByText('08:15, 16/11/2026')).toBeTruthy()
     expect(screen.getByText('Dữ liệu minh họa')).toBeTruthy()
   })
 

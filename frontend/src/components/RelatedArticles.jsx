@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getTopicArticles } from '../api'
 import ArticleItem from './ArticleItem'
+import Icon from './Icon'
 
 const PAGE_SIZE = 10
 
@@ -33,28 +34,33 @@ export default function RelatedArticles({ topicId, sources, total, sourceCount }
 
   const { status, items } = state
   return (
-    <section className="panel">
-      <header className="panel-head">
+    <section className="panel articles-panel">
+      <div className="section-heading articles-title">
         <div>
           <h2>Các bài viết liên quan</h2>
-          <div className="table-sub">
-            {source ? `${state.total} bài viết từ nguồn đã chọn` : `${total} bài viết từ ${sourceCount} nguồn`} · Mới nhất trước
-          </div>
+          <p>{source ? `${state.total} bài viết từ nguồn đã chọn` : `${total} bài viết từ ${sourceCount} nguồn`}</p>
         </div>
-        <select aria-label="Nguồn báo" value={source} onChange={(e) => setSource(e.target.value)}>
-          <option value="">Tất cả nguồn</option>
-          {sources.map((s) => (
-            <option key={s.code} value={s.code}>
-              {s.name}
-            </option>
-          ))}
-        </select>
-      </header>
+        <label className="select-wrap">
+          <span className="sr-only">Nguồn báo</span>
+          <select value={source} onChange={(e) => setSource(e.target.value)}>
+            <option value="">Tất cả nguồn</option>
+            {sources.map((s) => (
+              <option key={s.code} value={s.code}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div className="sort-note">
+        <Icon name="filter" size={15} />
+        Mới nhất trước
+      </div>
 
       {status === 'error' && (
         <p className="state">
-          Không tải được bài viết.{' '}
-          <button type="button" onClick={() => setAttempt((n) => n + 1)}>
+          Không tải được bài viết.
+          <button type="button" className="secondary-button" onClick={() => setAttempt((n) => n + 1)}>
             Thử lại
           </button>
         </p>
@@ -69,9 +75,12 @@ export default function RelatedArticles({ topicId, sources, total, sourceCount }
       </div>
 
       {status === 'ready' && !state.done && items.length < state.total && (
-        <button type="button" className="more" onClick={loadMore} disabled={loadingMore}>
-          {loadingMore ? 'Đang tải…' : 'Xem thêm bài viết'}
-        </button>
+        <div className="table-footer">
+          <button type="button" className="secondary-button" onClick={loadMore} disabled={loadingMore}>
+            {loadingMore ? 'Đang tải…' : 'Xem thêm bài viết'}
+            {!loadingMore && <Icon name="arrow" size={16} />}
+          </button>
+        </div>
       )}
     </section>
   )

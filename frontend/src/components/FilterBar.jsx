@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { RANGES, SORTS } from '../labels'
+import Icon from './Icon'
 
 // Controls only report changes; the page owns the filter state (it lives in the URL).
 export default function FilterBar({ filters, sources, onChange, onReset, canReset }) {
@@ -13,39 +14,63 @@ export default function FilterBar({ filters, sources, onChange, onReset, canRese
   }, [text]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <section className="filters">
-      <input
-        type="search"
-        className="search"
-        placeholder="Tìm kiếm chủ đề hoặc từ khóa…"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <select aria-label="Khoảng thời gian" value={filters.range} onChange={(e) => onChange('range', e.target.value)}>
+    <div className="filters">
+      <label className="search-box">
+        <Icon name="search" size={18} />
+        <input
+          type="search"
+          placeholder="Tìm kiếm chủ đề hoặc từ khóa…"
+          aria-label="Tìm kiếm chủ đề hoặc từ khóa"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        {text && (
+          <button type="button" onClick={() => setText('')} aria-label="Xóa tìm kiếm">
+            <Icon name="close" size={16} />
+          </button>
+        )}
+      </label>
+
+      <div className="filter-group range-group" role="group" aria-label="Khoảng thời gian">
         {Object.entries(RANGES).map(([code, name]) => (
-          <option key={code} value={code}>
+          <button
+            type="button"
+            key={code}
+            className={code === filters.range ? 'selected' : ''}
+            aria-pressed={code === filters.range}
+            onClick={() => onChange('range', code)}
+          >
             {name}
-          </option>
+          </button>
         ))}
-      </select>
-      <select aria-label="Nguồn báo" value={filters.source} onChange={(e) => onChange('source', e.target.value)}>
-        <option value="">Tất cả nguồn</option>
-        {sources.map((s) => (
-          <option key={s.code} value={s.code}>
-            {s.name}
-          </option>
-        ))}
-      </select>
-      <select aria-label="Sắp xếp" value={filters.sort} onChange={(e) => onChange('sort', e.target.value)}>
-        {Object.entries(SORTS).map(([code, name]) => (
-          <option key={code} value={code}>
-            {name}
-          </option>
-        ))}
-      </select>
-      <button type="button" onClick={onReset} disabled={!canReset}>
+      </div>
+
+      <label className="select-wrap">
+        <span className="sr-only">Nguồn báo</span>
+        <select value={filters.source} onChange={(e) => onChange('source', e.target.value)}>
+          <option value="">Tất cả nguồn</option>
+          {sources.map((s) => (
+            <option key={s.code} value={s.code}>
+              {s.name}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="select-wrap sort">
+        <span className="select-prefix">Sắp xếp:</span>
+        <select aria-label="Sắp xếp" value={filters.sort} onChange={(e) => onChange('sort', e.target.value)}>
+          {Object.entries(SORTS).map(([code, name]) => (
+            <option key={code} value={code}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <button type="button" className="reset-button" onClick={onReset} disabled={!canReset}>
         Xóa bộ lọc
       </button>
-    </section>
+    </div>
   )
 }

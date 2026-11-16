@@ -30,14 +30,26 @@ frontend/
     App.jsx             layout: Sidebar + TopBar + the current page
     api.js              the only file that knows where data comes from
     labels.js           Vietnamese labels and number/time formatters
-    index.css           all styles (plain CSS, no framework)
+    index.css           all styles: plain CSS taken from the Figma export (see "Visual design")
     pages/              OverviewPage, TopicDetailPage, StatusPage, NotFoundPage
-    components/         Sidebar, TopBar, SummaryCards, FilterBar, TopicRow,
-                        Sparkline, StatusBadge, TrendChart, ArticleItem, RelatedArticles
+    components/         Sidebar, TopBar, PageIntro, Metric, SummaryCards, FilterBar, TopicRow,
+                        Sparkline, StatusBadge, TrendChart, ArticleItem, RelatedArticles, Icon
     *.test.js(x)        api.test.js, labels.test.js, states.test.jsx
 ```
 
-Libraries: React 19, React Router 7, Recharts 3, Vite 8; tests use Vitest, Testing Library and jsdom. Nothing else is needed.
+Libraries: React 19, React Router 7, Recharts 3, Vite 8, and the Inter font bundled through `@fontsource/inter` (no request to Google Fonts, so the demo works offline); tests use Vitest, Testing Library and jsdom. Nothing else is needed.
+
+## Visual design
+
+The look comes from the Figma Make export of the prototype (`VietTrend News Analytics Dashboard.zip`, kept outside the repo): its stylesheet was adopted and the components were rebuilt to its markup, class names included (`.metric-card`, `.trends-table`, `.badge`, …). Deliberate differences from the export:
+
+- Type is scaled 1.1× with a floor of 11 px, because the export uses 7–11 px text that is hard to read.
+- Charts use Recharts (the export draws SVG by hand), styled to match; the last bucket is dashed.
+- One markup serves every width. The export renders separate desktop and phone lists; here the table rows turn into cards below 600 px with CSS.
+- The time-range selector of Topic Detail sits in the page header and controls the whole page (decision 2 in [UI_STRUCTURE.md](UI_STRUCTURE.md)), not inside the chart panel.
+- Article logos are coloured text initials, not images, because the data has no images.
+- The export's sidebar collapse is a drawer opened from the top bar below 820 px; there is no collapse button on wide screens.
+- The retry button on the stale-data banner is left out (no endpoint for it).
 
 ## How data flows
 
@@ -81,7 +93,6 @@ These behaviours come from `api.js` working around thin sample data, and disappe
 - Not checked on a real phone or tablet; layouts were checked at 375 px and 768 px in the browser emulator.
 - No source logos or thumbnails on articles (not in the design notes or the sample data).
 - The top bar loads its status once; it does not refresh while the tab stays open.
-- The sidebar collapsed state is not remembered after a reload.
 - The feed table on System Status has no per-feed "retry" because the sample API has no endpoint for it.
 - The page design follows [UI_STRUCTURE.md](UI_STRUCTURE.md), not the Figma prototype, which was not updated.
 
@@ -95,5 +106,5 @@ Start with `npm --prefix frontend run dev` and open http://localhost:5173. Stay 
 4. **Related articles.** Pick "Tuổi Trẻ" in the source filter. Click "Đọc bài gốc": it opens the original article in a new tab.
 5. **Back keeps the filters.** Press "Quay lại danh sách" and show that the Overview filters from step 2 are still applied.
 6. **System Status** (sidebar). Show the warning banner for the failing Dân trí Thể thao feed, the 20-feed table, the pipeline of the current run and the run log. Explain "Hoàn thành một phần": the run produced results even though one feed failed.
-7. **Narrow screen.** Shrink the window (or use the browser's device mode): the sidebar becomes a top row and the table rows become cards. Collapse the sidebar on a wide window to show the 64 px version.
+7. **Narrow screen.** Shrink the window (or use the browser's device mode): the sidebar turns into a drawer opened from the menu button in the top bar, and the table rows become cards.
 8. **Error handling** (only if asked). Open `/topics/9999`: "Không tìm thấy chủ đề" with a link back, not a blank page.

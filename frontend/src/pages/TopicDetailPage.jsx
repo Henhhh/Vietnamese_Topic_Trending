@@ -1,14 +1,28 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { getTopic } from '../api'
+import { SAMPLE_MODE, getTopic } from '../api'
 import ArticleItem from '../components/ArticleItem'
+import Icon from '../components/Icon'
+import Metric from '../components/Metric'
 import RelatedArticles from '../components/RelatedArticles'
 import StatusBadge from '../components/StatusBadge'
 import TrendChart from '../components/TrendChart'
-import { GROWTH_BASELINE, RANGES, RANGE_NOUN, formatDateTime, formatGrowth, formatNumber, label } from '../labels'
+import {
+  GROWTH_BASELINE,
+  RANGES,
+  RANGE_NOUN,
+  formatDay,
+  formatGrowth,
+  formatNumber,
+  formatTime,
+  label,
+} from '../labels'
 
 const SCORE_TIP =
   'Chỉ số tương đối dựa trên lượng bài, mức tăng, độ mới và mức độ đa dạng nguồn. Không phải xác suất.'
+
+// "14/11, 06:15" as in the design (no year).
+const formatShort = (iso) => `${formatDay(iso)}, ${formatTime(iso)}`
 
 export default function TopicDetailPage() {
   const { topicId } = useParams()
@@ -39,31 +53,25 @@ export default function TopicDetailPage() {
     }
   }, [topicId, range, attempt])
 
-  // Back restores the Overview filters when we came from there; a direct visit falls back to "/".
-  const cameFromApp = location.key !== 'default'
-  const back = cameFromApp ? (
-    <button type="button" className="link-button" onClick={() => navigate(-1)}>
-      ← Quay lại danh sách
-    </button>
-  ) : (
-    <Link to="/">← Quay lại danh sách</Link>
-  )
-
   const { status, data } = state
   if (status === 'notfound') {
     return (
-      <>
-        <h1>Không tìm thấy chủ đề</h1>
-        <p className="subtitle">Chủ đề này không tồn tại hoặc đã được gộp vào chủ đề khác.</p>
-        <Link to="/">← Về trang Tổng quan</Link>
-      </>
+      <div className="detail-page">
+        <div className="page-intro">
+          <h1>Không tìm thấy chủ đề</h1>
+          <p>Chủ đề này không tồn tại hoặc đã được gộp vào chủ đề khác.</p>
+        </div>
+        <Link className="back-button" to="/">
+          <Icon name="back" size={17} /> Về trang Tổng quan
+        </Link>
+      </div>
     )
   }
   if (status === 'error') {
     return (
       <p className="state">
-        Không tải được dữ liệu.{' '}
-        <button type="button" onClick={() => setAttempt((n) => n + 1)}>
+        Không tải được dữ liệu.
+        <button type="button" className="secondary-button" onClick={() => setAttempt((n) => n + 1)}>
           Thử lại
         </button>
       </p>
@@ -71,99 +79,109 @@ export default function TopicDetailPage() {
   }
   if (!data) return <p className="state">Đang tải…</p>
 
+  // Back restores the Overview filters when we came from there; a direct visit falls back to "/".
+  const cameFromApp = location.key !== 'default'
+  const backLabel = (
+    <>
+      <Icon name="back" size={17} /> Quay lại danh sách
+    </>
+  )
+
   const { topic } = data
   const maxSource = Math.max(...data.source_distribution.map((s) => s.article_count))
-  const cards = [
-    {
-      title: 'Điểm xu hướng',
-      tip: SCORE_TIP,
-      value: `${topic.score} / 100`,
-      note: 'Tính trên 24 giờ gần nhất, không đổi theo khoảng thời gian',
-    },
-    {
-      title: 'Số bài viết',
-      value: formatNumber(topic.article_count),
-      note: `Trong ${RANGES[range]} gần nhất`,
-    },
-    {
-      title: 'Số nguồn',
-      value: topic.source_count,
-      note: `Trong ${topic.source_total} nguồn theo dõi`,
-    },
-    {
-      title: 'Mức tăng',
-      value: formatGrowth(topic.growth_pct),
-      note: label(GROWTH_BASELINE, topic.growth_baseline),
-    },
-  ]
 
   return (
-    <>
-      <nav className="breadcrumb">
-        <Link to="/">Tổng quan</Link> › Chi tiết chủ đề
-      </nav>
-      {back}
+    <div className="detail-page">
+      <div className="breadcrumb">
+        <Link to="/">Tổng quan</Link>
+        <Icon name="chevron" size={13} />
+        <span>Chi tiết chủ đề</span>
+      </div>
+      {cameFromApp ? (
+        <button type="button" className="back-button" onClick={() => navigate(-1)}>
+          {backLabel}
+        </button>
+      ) : (
+        <Link className="back-button" to="/">
+          {backLabel}
+        </Link>
+      )}
 
-      <header className="detail-head">
+      <div className="detail-title-row">
         <div>
           <h1>{topic.title}</h1>
-          <div className="topic-meta">
-            <StatusBadge status={topic.status} />
+          <div className="keyword-row detail-keywords">
             {topic.keywords.map((k) => (
-              <span className="tag" key={k}>
+              <span className="keyword" key={k}>
                 {k}
               </span>
             ))}
-          </div>
-          <div className="table-sub">
-            Phát hiện đầu tiên: {formatDateTime(topic.first_seen_at)} · Cập nhật: {formatDateTime(topic.updated_at)}
+            <StatusBadge status={topic.status} />
           </div>
         </div>
-        <div className="range-tabs" role="group" aria-label="Khoảng thời gian">
-          {Object.entries(RANGES).map(([code, name]) => (
-            <button
-              type="button"
-              key={code}
-              className={code === range ? 'active' : ''}
-              aria-pressed={code === range}
-              onClick={() => setRange(code)}
-            >
-              {name}
-            </button>
-          ))}
+        <div className="detail-side-head">
+          <div className="filter-group" role="group" aria-label="Khoảng thời gian">
+            {Object.entries(RANGES).map(([code, name]) => (
+              <button
+                type="button"
+                key={code}
+                className={code === range ? 'selected' : ''}
+                aria-pressed={code === range}
+                onClick={() => setRange(code)}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+          <div className="timestamps">
+            <span>
+              <Icon name="clock" size={15} />
+              Phát hiện đầu tiên <strong>{formatShort(topic.first_seen_at)}</strong>
+            </span>
+            <span>
+              Cập nhật <strong>{formatShort(topic.updated_at)}</strong>
+            </span>
+          </div>
         </div>
-      </header>
+      </div>
 
-      <section className="cards">
-        {cards.map((c) => (
-          <div className="card" key={c.title}>
-            <div className="card-title">
-              {c.title}
-              {c.tip && (
-                <span className="info" title={c.tip} aria-label={c.tip}>
-                  ⓘ
-                </span>
-              )}
-            </div>
-            <div className="card-value">{c.value}</div>
-            <div className="card-note">{c.note}</div>
-          </div>
-        ))}
-      </section>
+      <div className="metrics-grid four">
+        <Metric
+          label="Điểm xu hướng"
+          tooltip={SCORE_TIP}
+          value={`${topic.score} / 100`}
+          helper="Chỉ số tương đối · tính trên 24 giờ gần nhất"
+        />
+        <Metric label="Số bài viết" value={formatNumber(topic.article_count)} helper={`Trong ${RANGES[range]} gần nhất`} />
+        <Metric label="Số nguồn" value={topic.source_count} helper={`Trong ${topic.source_total} nguồn theo dõi`} />
+        <Metric
+          label="Mức tăng"
+          value={formatGrowth(topic.growth_pct)}
+          helper={label(GROWTH_BASELINE, topic.growth_baseline)}
+        />
+      </div>
 
       <div className="detail-grid">
         <div className="detail-main">
-          <section className="panel">
-            <h2>Diễn biến đưa tin</h2>
-            <div className="table-sub">
-              Số bài viết {RANGE_NOUN[range]} · Nét đứt: khoảng thời gian hiện tại chưa đủ
+          <section className="panel chart-panel">
+            <div className="section-heading">
+              <div>
+                <h2>Diễn biến đưa tin</h2>
+                <p>Số bài viết {RANGE_NOUN[range]} · Nét đứt: khoảng thời gian hiện tại chưa đủ</p>
+              </div>
             </div>
             <TrendChart points={data.timeline.points} range={range} />
           </section>
 
-          <section className="panel">
-            <h2>Bài viết đại diện</h2>
-            <ArticleItem article={data.representative_article} />
+          <section className="panel representative">
+            <div className="section-heading">
+              <div>
+                <h2>Bài viết đại diện</h2>
+                <p>Bài viết có độ liên quan cao với cụm chủ đề</p>
+              </div>
+              {SAMPLE_MODE && <span className="illustrative">MINH HỌA</span>}
+            </div>
+            <ArticleItem article={data.representative_article} variant="featured" />
           </section>
 
           <RelatedArticles
@@ -174,45 +192,45 @@ export default function TopicDetailPage() {
           />
         </div>
 
-        <aside className="detail-side">
-          <section className="panel">
+        <aside className="detail-aside">
+          <section className="panel side-panel">
             <h2>Từ khóa liên quan</h2>
-            <div className="table-sub">Trích xuất từ cụm bài viết</div>
-            <ul className="kw-list">
+            <p className="side-caption">Trích xuất từ cụm bài viết</p>
+            <div className="keyword-cloud">
               {data.related_keywords.map((k) => (
-                <li key={k.keyword}>
-                  <span>{k.keyword}</span>
-                  <strong>{formatNumber(k.count)}</strong>
-                </li>
+                <span key={k.keyword}>
+                  {k.keyword} <b>{formatNumber(k.count)}</b>
+                </span>
               ))}
-            </ul>
+            </div>
           </section>
 
-          <section className="panel">
-            <h2>Phân bố nguồn</h2>
-            <ul className="bars">
-              {data.source_distribution.map((s) => (
-                <li key={s.source.code}>
-                  <div className="bar-label">
-                    <span>{s.source.name}</span>
-                    <strong>{formatNumber(s.article_count)}</strong>
-                  </div>
-                  <div className="bar-track">
-                    <div className="bar-fill" style={{ width: `${(s.article_count / maxSource) * 100}%` }} />
-                  </div>
-                </li>
-              ))}
-            </ul>
+          <section className="panel side-panel">
+            <div className="section-heading">
+              <h2>Phân bố nguồn</h2>
+            </div>
+            {data.source_distribution.map((s) => (
+              <div className="source-bar" key={s.source.code}>
+                <div>
+                  <span>{s.source.name}</span>
+                  <strong>{formatNumber(s.article_count)} bài</strong>
+                </div>
+                <div className="bar-track">
+                  <span style={{ width: `${(s.article_count / maxSource) * 100}%` }} />
+                </div>
+              </div>
+            ))}
           </section>
 
-          <section className="panel">
-            <h2>Về dữ liệu</h2>
-            <p className="table-sub">
+          <div className="method-note">
+            <Icon name="info" size={17} />
+            <p>
+              <strong>Về dữ liệu</strong>
               Chủ đề được nhóm từ các bài viết có nội dung liên quan. Số liệu chỉ phản ánh tập nguồn đã thu thập.
             </p>
-          </section>
+          </div>
         </aside>
       </div>
-    </>
+    </div>
   )
 }

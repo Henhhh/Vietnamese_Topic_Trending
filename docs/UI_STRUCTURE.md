@@ -8,7 +8,7 @@ This records what each of the 3 pages shows, so the API JSON can be checked agai
 
 - **Sidebar**: logo "VietTrend"; group "KHÁM PHÁ" with two entries — **Tổng quan** and **Trạng thái hệ thống**; a note card "Điểm xu hướng: Chỉ số tương đối 0–100 dựa trên lượng bài, mức tăng, độ mới và đa dạng nguồn."; footer "ĐỒ ÁN PHÂN TÍCH TIN TỨC"; a collapse button.
 - **Top bar**: update status with timestamp ("Cập nhật thành công · 08:42, 24/05/2025") and a "Dữ liệu minh họa" badge.
-- **Navigation**: Topic Detail has no sidebar entry; it opens by clicking a topic row on Overview. The prototype does not change the URL between pages.
+- **Navigation**: (the exported prototype code shows the sidebar as a drawer below 820 px rather than a collapse button) Topic Detail has no sidebar entry; it opens by clicking a topic row on Overview. The prototype does not change the URL between pages.
 
 Data needed by the layout: last successful update time and its status.
 
