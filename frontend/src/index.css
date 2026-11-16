@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 240px;
+  padding: 24px 16px;
+  border-right: 1px solid #e5e7eb;
+}
+
+.sidebar a.active {
+  font-weight: 600;
+}
+
+.content {
+  flex: 1;
+  padding: 24px;
+}
