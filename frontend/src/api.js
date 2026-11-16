@@ -12,6 +12,9 @@ import overviewSample from '@samples/overview.json'
 import detailSample from '@samples/topic-detail.json'
 import statusSample from '@samples/status.json'
 
+// The UI shows a "Dữ liệu minh họa" badge while this is true. Set it to false with the real API.
+export const SAMPLE_MODE = true
+
 export class ApiError extends Error {
   constructor(status, message) {
     super(message)

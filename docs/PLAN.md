@@ -2,7 +2,7 @@
 
 **Report submission:** 13 January 2027 · **Defense:** 20 January 2027
 
-Legend: ✅ done · 🟡 in progress · ⬜ not started · Last updated: 16 November 2026
+Legend: ✅ done · 🟡 in progress · ⬜ not started · Last updated: 17 November 2026
 
 ## Pipeline roles (Persons 2–5)
 
@@ -21,7 +21,7 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · Last updated: 16 Nove
 |---|---|---|---|
 | **1. Common foundation** | ✅ Finalized Vietnamese scope, 3 MVP pages and 7 roles | 🟡 FastAPI + PostgreSQL proposed; schema not confirmed | ✅ Figma Make has all 3 desktop pages |
 | **2. Sample outputs** | ⬜ Finalize one shared sample dataset | 🟡 Sample JSON for the 3 pages drafted in [api-samples](api-samples/); awaiting review, schema not finalized | ✅ Frontend data layer ([api.js](../frontend/src/api.js), [labels.js](../frontend/src/labels.js)) reads the sample JSON and filters it (sample mode) |
-| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 Frontend scaffold (Vite + React Router, 3 routes) and sample-mode data layer are in the team repo; pages not built yet |
+| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 All 3 pages (Overview, Topic Detail, System Status) are built on sample data in the team repo; shared top bar and the remaining gaps below are still open |
 | **4. Integration** | ⬜ Trial run from RSS to dashboard | ⬜ Replace the sample API with real data | ⬜ Connect the API; returning to the list keeps the filters |
 | **5. Testing** | ⬜ Test the full flow, including when one source fails | ⬜ Test filters, pagination and error responses | ⬜ Test small screens, loading/empty/error states and original-article links |
 | **6. Git / handover** | ⬜ Finalize the demo and the shared run guide | ⬜ Hand over schema, API docs and DB setup steps | ⬜ Hand over frontend, API config and demo script |
@@ -38,6 +38,6 @@ Added on 16 November 2026 after the source list and the prototype inconsistencie
 | **4 — Topic Detection** | ⬜ Keep `topic_id` stable across runs (required by the URL scheme)<br>⬜ Hand-check clustering on title + description after the trial |
 | **5 — Trend Analysis** | ⬜ One trend score per topic, computed over the latest 24 hours<br>⬜ Growth for 6 giờ compares with the same hours on the previous day<br>⬜ Set the minimum baseline count below which no percentage is shown |
 | **6 — Backend & Database** | ⬜ Store article counts per hour<br>⬜ Store start time, end time and status for each run<br>⬜ API accepts `range`, `source`, `sort`, `q` |
-| **7 — Frontend** | ⬜ Build the pages to match the decisions in [UI_STRUCTURE.md](UI_STRUCTURE.md) (Figma is not updated; the docs are the reference)<br>🟡 React Router: 3 routes and the not-found page are in; filters in the URL still to do<br>✅ Sample-mode API layer and Vietnamese labels (swap to `fetch()` at integration)<br>⬜ Draw the last, incomplete chart bucket as a dashed line |
+| **7 — Frontend** | 🟡 Pages match the decisions in [UI_STRUCTURE.md](UI_STRUCTURE.md) (Figma is not updated; the docs are the reference); still missing: shared top bar ("Dữ liệu tính đến", demo-data badge) and the sidebar note card, footer and collapse button<br>✅ React Router: 3 routes, not-found page, and filters in the URL (Overview filters, Topic Detail range)<br>✅ Sample-mode API layer and Vietnamese labels (swap to `fetch()` at integration)<br>✅ Last, incomplete chart bucket is drawn as a dashed line (chart and sparkline) |
 
 Thresholds waiting for trial data: description too short, clustering error rate too high, minimum baseline count.

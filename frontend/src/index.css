@@ -149,3 +149,14 @@ button:disabled { opacity: 0.5; }
 .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-top: 16px; }
 .steps, .runs { margin: 12px 0; padding: 0; list-style: none; }
 .steps li, .runs li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f3f4f6; }
+
+/* ---- Top bar ---- */
+.main { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.topbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 24px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+.topbar-main { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.topbar-badges { display: flex; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #9ca3af; }
+.dot-completed { background: #16a34a; }
+.dot-partial { background: #d97706; }
+.badge-sample { background: #fef3c7; color: #92400e; }
+.badge-monitor { background: #e0e7ff; color: #3730a3; }

@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import TopBar from './components/TopBar'
 
 export default function App() {
   return (
@@ -10,9 +11,12 @@ export default function App() {
         </NavLink>
         <NavLink to="/status">Trạng thái hệ thống</NavLink>
       </nav>
-      <main className="content">
-        <Outlet />
-      </main>
+      <div className="main">
+        <TopBar />
+        <main className="content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }
