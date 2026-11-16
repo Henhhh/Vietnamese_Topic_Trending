@@ -90,3 +90,43 @@ button:disabled { opacity: 0.5; }
   .cell-spark { display: none; }
   .row [data-label]::before { content: attr(data-label) ": "; color: #6b7280; font-size: 12px; }
 }
+
+/* ---- Topic Detail ---- */
+.breadcrumb { margin-bottom: 4px; font-size: 13px; color: #6b7280; }
+.link-button { padding: 0; border: 0; background: none; color: #2563eb; font: inherit; cursor: pointer; }
+.detail-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin: 12px 0 20px; }
+.detail-head .topic-meta { margin: 8px 0; }
+.range-tabs { display: flex; align-self: flex-start; border: 1px solid #d1d5db; border-radius: 6px; overflow: hidden; }
+.range-tabs button { padding: 8px 14px; border: 0; background: #fff; font: inherit; cursor: pointer; }
+.range-tabs button.active { background: #2563eb; color: #fff; }
+.info { margin-left: 4px; cursor: help; }
+
+.detail-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
+.detail-main, .detail-side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.panel { padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; }
+.panel h2 { margin: 0; font-size: 18px; }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.panel-head select { padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; font: inherit; }
+.panel .more { margin-bottom: 0; }
+.panel .state button { padding: 8px 10px; }
+.is-loading { opacity: 0.5; }
+
+.chart-tip { padding: 8px 10px; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; font-size: 13px; }
+.chart-tip-note { color: #6b7280; }
+
+.article { padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+.article:last-child { border-bottom: 0; }
+.article-meta { font-size: 13px; color: #6b7280; }
+.article-title { margin: 4px 0; font-size: 16px; }
+.article-excerpt { margin: 0 0 6px; color: #4b5563; }
+
+.kw-list, .bars { margin: 12px 0 0; padding: 0; list-style: none; }
+.kw-list li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f3f4f6; }
+.bars li { margin-bottom: 12px; }
+.bar-label { display: flex; justify-content: space-between; font-size: 14px; }
+.bar-track { height: 8px; margin-top: 4px; border-radius: 4px; background: #f3f4f6; }
+.bar-fill { height: 100%; border-radius: 4px; background: #2563eb; }
+
+@media (max-width: 900px) {
+  .detail-grid { grid-template-columns: 1fr; }
+}

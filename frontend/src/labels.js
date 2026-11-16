@@ -36,6 +36,9 @@ export const STEP_STATUS = {
 
 export const RANGES = { '6h': '6 giờ', '24h': '24 giờ', '7d': '7 ngày' }
 
+// Bucket size per range, for chart captions.
+export const RANGE_NOUN = { '6h': 'từng giờ', '24h': 'từng 2 giờ', '7d': 'từng ngày' }
+
 export const SORTS = { score: 'Điểm xu hướng', articles: 'Số bài viết', growth: 'Mức tăng' }
 
 export const GROWTH_BASELINE = {
