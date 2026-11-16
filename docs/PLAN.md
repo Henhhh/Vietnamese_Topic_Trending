@@ -21,9 +21,9 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · Last updated: 17 Nove
 |---|---|---|---|
 | **1. Common foundation** | ✅ Finalized Vietnamese scope, 3 MVP pages and 7 roles | 🟡 FastAPI + PostgreSQL proposed; schema not confirmed | ✅ Figma Make has all 3 desktop pages |
 | **2. Sample outputs** | ⬜ Finalize one shared sample dataset | 🟡 Sample JSON for the 3 pages drafted in [api-samples](api-samples/); awaiting review, schema not finalized | ✅ Frontend data layer ([api.js](../frontend/src/api.js), [labels.js](../frontend/src/labels.js)) reads the sample JSON and filters it (sample mode) |
-| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 All 3 pages, the shared top bar and the sidebar are built on sample data in the team repo; not yet connected to the real API or tested on small screens |
+| **3. Core features** | ⬜ Write the orchestration flow for the processing steps | ⬜ Create the database and APIs for trends, detail and status | 🟡 All 3 pages, the shared top bar and the sidebar are built on sample data in the team repo; not yet connected to the real API |
 | **4. Integration** | ⬜ Trial run from RSS to dashboard | ⬜ Replace the sample API with real data | ⬜ Connect the API; returning to the list keeps the filters |
-| **5. Testing** | ⬜ Test the full flow, including when one source fails | ⬜ Test filters, pagination and error responses | 🟡 Vitest tests for the data layer are in (`npm --prefix frontend test`, 41 tests); still to test: small screens, loading/empty/error states and original-article links |
+| **5. Testing** | ⬜ Test the full flow, including when one source fails | ⬜ Test filters, pagination and error responses | 🟡 Vitest tests for the data layer are in (`npm --prefix frontend test`, 41 tests); small screens checked at 375 px in the browser emulator and fixed (tablet width, real devices and the lower parts of the Status and Topic Detail pages not yet checked); still to test: loading/empty/error states and original-article links |
 | **6. Git / handover** | ⬜ Finalize the demo and the shared run guide | ⬜ Hand over schema, API docs and DB setup steps | ⬜ Hand over frontend, API config and demo script |
 
 ## Follow-up tasks from design decisions
