@@ -2,8 +2,15 @@
   box-sizing: border-box;
 }
 
+/* The design is light only; without this a dark browser theme gives dark text on a dark page. */
+:root {
+  color-scheme: light;
+}
+
 body {
   margin: 0;
+  background: #fff;
+  color: #111827;
   font-family: system-ui, sans-serif;
 }
 
@@ -80,7 +87,7 @@ button:disabled { opacity: 0.5; }
 @media (max-width: 900px) {
   .app { flex-direction: column; }
   .sidebar { width: auto; flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid #e5e7eb; }
-  .row { grid-template-columns: 32px 1fr 1fr; grid-template-areas: "rank topic topic" "score articles sources" ". growth growth"; }
+  .row { grid-template-columns: 32px 1fr 1fr; grid-template-areas: "rank topic topic" ". score articles" ". sources growth"; }
   .cell-rank { grid-area: rank; }
   .cell-topic { grid-area: topic; }
   .cell-score { grid-area: score; }
@@ -183,4 +190,9 @@ button:disabled { opacity: 0.5; }
   .nav-group { flex-direction: row; }
   .sidebar.collapsed { width: auto; }
   .sidebar.collapsed .nav-text { display: inline; }
+  /* The feed table keeps its natural width and scrolls sideways instead of wrapping every cell. */
+  .feeds { min-width: 760px; }
+  .feeds .url { max-width: none; white-space: nowrap; }
 }
+
+.badge { white-space: nowrap; }

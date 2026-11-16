@@ -27,8 +27,8 @@ export default function TopBar() {
           <>
             <span className={`dot dot-${done.status}`} aria-hidden="true" />
             <span>Dữ liệu tính đến {formatDateTime(status.data_as_of)}</span>
-            {done.status === 'partial' && <span className="muted">· {label(RUN_STATUS, done.status)}</span>}
-            {status.latest_run.status === 'running' && <span className="muted">· Đang cập nhật…</span>}
+            {done.status === 'partial' && <span className="muted">({label(RUN_STATUS, done.status).toLowerCase()})</span>}
+            {status.latest_run.status === 'running' && <span className="muted">Đang cập nhật…</span>}
           </>
         ) : (
           <span className="muted">Chưa có dữ liệu cập nhật</span>
