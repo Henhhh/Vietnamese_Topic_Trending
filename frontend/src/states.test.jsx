@@ -154,10 +154,29 @@ describe('Related articles', () => {
     expect(screen.queryByRole('button', { name: 'Xem thêm bài viết' })).toBeNull()
   })
 
-  it('has no "Xem thêm bài viết" button when the first page is not full', async () => {
+  it('offers "Xem thêm bài viết" while fewer articles are loaded than the total, and loads the next page', async () => {
+    const make = (n, from) => Array.from({ length: n }, (_, i) => ({ url: `https://example.com/${from + i}`, title: `Bài ${from + i}`, excerpt: 'E', source: { code: 's', name: 'S' }, published_at: '2026-11-16T08:00:00+07:00' }))
+    api.getTopicArticles.mockImplementation(async (_id, { offset }) => ({ total: 12, limit: 10, offset, items: offset === 0 ? make(10, 0) : make(2, 10) }))
+    show()
+    await screen.findByText('Bài 0')
+    fireEvent.click(screen.getByRole('button', { name: 'Xem thêm bài viết' }))
+    await screen.findByText('Bài 11')
+    expect(screen.getAllByRole('link', { name: /Đọc bài gốc/ })).toHaveLength(12)
+    expect(screen.queryByRole('button', { name: 'Xem thêm bài viết' })).toBeNull()
+  })
+
+  it('offers "Xem thêm bài viết" when the first page is smaller than the total (the sample case)', async () => {
     show()
     await screen.findByText('Giá vàng SJC tăng trở lại sau phiên điều chỉnh')
-    expect(screen.queryByRole('button', { name: 'Xem thêm bài viết' })).toBeNull()
+    expect(screen.getByRole('button', { name: 'Xem thêm bài viết' })).toBeTruthy()
+  })
+
+  it('stops offering more when a page comes back empty, instead of looping', async () => {
+    show()
+    await screen.findByText('Giá vàng SJC tăng trở lại sau phiên điều chỉnh')
+    fireEvent.click(screen.getByRole('button', { name: 'Xem thêm bài viết' }))
+    await waitFor(() => expect(screen.queryByRole('button', { name: 'Xem thêm bài viết' })).toBeNull())
+    expect(screen.getByText('Giá vàng SJC tăng trở lại sau phiên điều chỉnh')).toBeTruthy()
   })
 })
 
