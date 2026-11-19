@@ -77,7 +77,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 
 | ID | Task | Start | Due | Needs | Status |
 |---|---|---|---|---|---|
-| P6-1 | Answer the 3 open questions in [api-samples/README.md](api-samples/README.md) | W1 | W1 | — | ⬜ |
+| P6-1 | Answer the 3 open questions in [api-samples/README.md](api-samples/README.md) | W1 | W1 | — | ✅ |
 | P6-2 | Review the sample JSON and confirm or change the schema | W2 | W2 | P6-1 | ⬜ |
 | P6-3 | Database and migrations; store article counts per hour and start/end/status per run | W3 | W3 | P6-2 | ⬜ |
 | P6-4 | `GET /api/topics` with `range`, `source`, `sort`, `q`, `limit`, `offset` | W3 | W4 | P6-3 | ⬜ |
