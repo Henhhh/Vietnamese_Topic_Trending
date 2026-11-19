@@ -10,6 +10,7 @@ All values are illustrative. Article URLs are made up; the 20 `rss_url` values i
 |---|---|---|
 | [overview.json](overview.json) | `GET /api/topics` | `range`, `source`, `sort`, `q`, `limit`, `offset` |
 | [topic-detail.json](topic-detail.json) | `GET /api/topics/{topic_id}` | `range` |
+| (no sample file; same `articles` shape as in topic-detail.json) | `GET /api/topics/{topic_id}/articles` | `range`, `source`, `limit`, `offset` |
 | [status.json](status.json) | `GET /api/status` | — |
 
 - `range`: `6h`, `24h` (default), `7d`
@@ -47,3 +48,12 @@ All values are illustrative. Article URLs are made up; the 20 `rss_url` values i
 1. Related articles on Topic Detail: the sample embeds the first page in `articles`. Filtering by source and loading more would need `GET /api/topics/{topic_id}/articles?source=&limit=&offset=` returning the same `articles` shape. Is a separate endpoint acceptable?
 2. `overview.json` repeats the source list in `sources` so the filter can be built without another request. Keep it there, or move it to its own endpoint?
 3. `topic_id` is shown as an integer. Any type works for the frontend as long as it is stable across runs.
+
+## Answers from Person 6 (17–19 November 2026)
+
+1. **Separate articles endpoint: accepted.** `GET /api/topics/{topic_id}/articles?range=&source=&limit=&offset=` returns `{ total, limit, offset, items }`, newest first (`published_at` descending, ties broken by article id). Notes:
+   - `range` is added so `total` matches the `article_count` shown on the page; without it, picking 6h would show a different number from the list.
+   - `GET /api/topics/{topic_id}` keeps `articles.total` but no longer needs `articles.items`, because the frontend loads the list from the new endpoint. Until the frontend is changed, the backend may keep returning the first page there.
+   - Offset paging is enough: data only changes once per run, and `data_as_of` is fixed between runs.
+2. **Keep `sources` in `GET /api/topics`.** It always lists all 4 configured sources, even one with no articles in the range or with a feed error, so the filter never loses an option. `source_distribution` in Topic Detail also lists all 4, with `article_count: 0` where needed.
+3. **`topic_id` is an integer** (auto-increment primary key, sent as a JSON number). It must never be reused or derived from a title or a run number, and must stay the same across runs (see UI_STRUCTURE.md). Unknown ids, a merged cluster, and non-numeric values such as `/api/topics/abc` all return HTTP 404 with the same error body. Topics that cool down are kept, so old links still open.
