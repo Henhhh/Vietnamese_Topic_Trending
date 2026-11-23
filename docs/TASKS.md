@@ -23,21 +23,21 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 
 | ID | Task | Start | Due | Needs | Status |
 |---|---|---|---|---|---|
-| P2-1 | Collector reads all 20 feeds every 15 minutes and stores the articles (not only counts) | W1 | W1 | — | ⬜ |
-| P2-2 | Map each source's category names to the 5 shared categories | W1 | W1 | — | ⬜ |
-| P2-3 | Measure feed retention for VnExpress, Tuổi Trẻ and Thanh Niên | W1 | W1 | P2-1 | ⬜ |
-| P2-4 | Run the 7-day trial; log the metrics in FEED_TRIAL.md | W1 | W2 | P2-1 | ⬜ |
+| P2-1 | Collector reads all 20 feeds every 15 minutes and stores the articles (not only counts) | W1 | W1 | — | ✅ |
+| P2-2 | Map each source's category names to the 5 shared categories | W1 | W1 | — | ✅ |
+| P2-3 | Measure feed retention for VnExpress, Tuổi Trẻ and Thanh Niên | W1 | W1 | P2-1 | ✅ |
+| P2-4 | Run the 7-day trial; log the metrics in FEED_TRIAL.md | W1 | W2 | P2-1 | 🟡 |
 | P2-5 | Trial summary per feed: new per day, both duplicate rates, errors, retention, description length | W2 | W2 | P2-4 | ⬜ |
 | P2-6 | Export the shared sample articles (source, URL, title, publish date) | W2 | W2 | P2-4 | ⬜ |
-| P2-7 | Normalize and deduplicate in the collector; feed articles into the pipeline | W3 | W4 | P2-1 | ⬜ |
-| P2-8 | Tests: broken feeds, missing dates, duplicates | W5 | W5 | P2-7 | ⬜ |
-| P2-9 | Handover: collector and a guide for adding sources | W7 | W7 | P2-8 | ⬜ |
+| P2-7 | Normalize and deduplicate in the collector; feed articles into the pipeline | W3 | W4 | P2-1 | 🟡 |
+| P2-8 | Tests: broken feeds, missing dates, duplicates | W5 | W5 | P2-7 | ✅ |
+| P2-9 | Handover: collector and a guide for adding sources | W7 | W7 | P2-8 | ✅ |
 
 ## Person 3 — Vietnamese NLP
 
 | ID | Task | Start | Due | Needs | Status |
 |---|---|---|---|---|---|
-| P3-1 | Sample cleaned text and keywords on the first day's articles | W2 | W2 | P2-1 | ⬜ |
+| P3-1 | Sample cleaned text and keywords on the first day's articles | W2 | W2 | P2-1 | 🟡 |
 | P3-2 | Segment words, remove stopwords, extract keywords (input = title + RSS description) | W3 | W3 | P3-1 | ⬜ |
 | P3-3 | Label clusters with keywords | W3 | W4 | P4-2 | ⬜ |
 | P3-4 | Return keywords and topic labels to the pipeline | W4 | W4 | P3-2 | ⬜ |
@@ -78,7 +78,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 | ID | Task | Start | Due | Needs | Status |
 |---|---|---|---|---|---|
 | P6-1 | Answer the 3 open questions in [api-samples/README.md](api-samples/README.md) | W1 | W1 | — | ✅ |
-| P6-2 | Review the sample JSON and confirm or change the schema | W2 | W2 | P6-1 | ⬜ |
+| P6-2 | Review the sample JSON and confirm or change the schema | W2 | W2 | P6-1 | 🟡 |
 | P6-3 | Database and migrations; store article counts per hour and start/end/status per run | W3 | W3 | P6-2 | ⬜ |
 | P6-4 | `GET /api/topics` with `range`, `source`, `sort`, `q`, `limit`, `offset` | W3 | W4 | P6-3 | ⬜ |
 | P6-5 | `GET /api/topics/{id}` (and `/articles` if agreed) and `GET /api/status` | W4 | W4 | P6-3 | ⬜ |
