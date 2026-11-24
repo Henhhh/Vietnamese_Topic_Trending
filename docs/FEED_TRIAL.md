@@ -33,7 +33,29 @@ Collection starts with RSS only (title + description). After the trial, Person 4
 |---|---|---|
 | Dân trí | 100 | 4–17 days old, depending on category |
 
-VnExpress, Tuổi Trẻ and Thanh Niên have not been measured.
+## Measured on 21 November 2026
+
+One poll of all 20 feeds (collector, single read; not the 7-day trial). Retention is the age in days of the oldest item in the feed. Tuổi Trẻ dates contain no time zone; interpreting them as Vietnam time (UTC+7) is an inference, not publisher metadata. The newest item was about 40 minutes older than the poll, which supports that interpretation. See [collector README](../collector/README.md).
+
+| Source | Items per feed | Oldest item (days), by category |
+|---|---|---|
+| VnExpress | 60 | Thời sự 2.8 · Thế giới 2.1 · Kinh tế 3.1 · Công nghệ 4.2 · Thể thao 3.3 |
+| Tuổi Trẻ | 50 | Thời sự 0.9 · Thế giới 1.1 · Kinh tế 1.1 · Công nghệ (Nhịp sống số) 52.2 · Thể thao 1.3 |
+| Thanh Niên | 50 | Thời sự 0.9 · Thế giới 2.2 · Kinh tế 1.9 · Công nghệ 4.1 · Thể thao 1.7 |
+| Dân trí | 100 | Thời sự 1.9 · Thế giới 3.8 · Kinh tế 3.2 · Công nghệ 16.8 · Thể thao 6.6 |
+
+Several feeds hold less than one to two days of items, so 15-minute polling is needed to avoid gaps. The Dân trí row above (4–17 days) was measured on 16 November; the 21 November values for the same source are in this table.
+
+## Retention from stored trial polls (24 November 2026)
+
+The table below is from `python -m collector --trial-summary` on the local collector database. It summarizes 229 recorded polls per feed through 24 November 2026 06:19 (+07:00). Retention is the maximum recorded `retention_seconds` per feed, converted to days and rounded to one decimal; it is not a single-poll reading.
+
+| Source | Oldest item (days), by category |
+|---|---|
+| VnExpress | Thời sự 3.7 · Thế giới 3.0 · Kinh tế 4.1 · Công nghệ 5.8 · Thể thao 3.6 |
+| Tuổi Trẻ | Thời sự 1.7 · Thế giới 2.3 · Kinh tế 1.8 · Công nghệ (Nhịp sống số) 54.8 · Thể thao 1.8 |
+| Thanh Niên | Thời sự 1.8 · Thế giới 3.0 · Kinh tế 3.2 · Công nghệ 5.7 · Thể thao 2.1 |
+| Dân trí | Thời sự 2.9 · Thế giới 4.8 · Kinh tế 3.8 · Công nghệ 17.2 · Thể thao 6.7 |
 
 ## Output
 
