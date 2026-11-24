@@ -551,6 +551,23 @@ class TrialReportTests(unittest.TestCase):
         self.assertEqual(result["feeds"][0]["actual_polls"], 7)
         self.assertEqual(result["feeds"][0]["missing_intervals"], 665)
 
+    def test_trial_validation_counts_intervals_with_shifted_polling_phase(self) -> None:
+        configured_feed = feed(1)
+        start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)
+        # Collector restarted after 100 intervals and now polls 7 minutes off the original grid.
+        metrics = [
+            {"feed_id": 1, "polled_at": (start + timedelta(minutes=15 * slot)).isoformat()}
+            for slot in range(100)
+        ] + [
+            {"feed_id": 1, "polled_at": (start + timedelta(minutes=15 * slot + 7)).isoformat()}
+            for slot in range(100, 672)
+        ]
+
+        result = validate_trial([configured_feed], metrics, now=start + timedelta(days=7))
+
+        self.assertEqual(result["missing_interval_count"], 0)
+        self.assertEqual(result["coverage_pct"], 100.0)
+
     def test_trial_validation_rejects_a_calendar_day_without_polls(self) -> None:
         configured_feed = feed(1)
         start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)

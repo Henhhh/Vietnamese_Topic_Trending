@@ -100,17 +100,18 @@ def validate_trial(
     now: datetime | None = None,
     interval_seconds: int = POLL_INTERVAL_SECONDS,
     duration_days: int = 7,
-    tolerance_seconds: int = 120,
 ) -> dict[str, object]:
     """Check that every feed has polls on `duration_days` consecutive calendar days.
 
     Gaps inside those days do not fail the check; they are reported as
     missing intervals and coverage_pct so results can state the real coverage.
+    An interval counts as covered when it holds at least one poll, so a
+    restart that shifts the polling phase does not create false gaps.
     """
     if not feeds:
         raise ValueError("At least one feed is required to validate a trial")
-    if interval_seconds <= 0 or duration_days <= 0 or tolerance_seconds < 0:
-        raise ValueError("Trial interval and duration must be positive; tolerance cannot be negative")
+    if interval_seconds <= 0 or duration_days <= 0:
+        raise ValueError("Trial interval and duration must be positive")
 
     duration_seconds = duration_days * 24 * 60 * 60
     if duration_seconds % interval_seconds:
@@ -152,11 +153,8 @@ def validate_trial(
         if trial_start is not None:
             for value in observed:
                 offset = (value - trial_start).total_seconds()
-                slot = round(offset / interval_seconds)
-                if (
-                    0 <= slot < due_polls
-                    and abs(offset - slot * interval_seconds) <= tolerance_seconds
-                ):
+                slot = int(offset // interval_seconds)
+                if 0 <= slot < due_polls:
                     matched_slots.add(slot)
 
         missing_intervals = max(0, due_polls - len(matched_slots))
