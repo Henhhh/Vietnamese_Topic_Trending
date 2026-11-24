@@ -28,7 +28,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 | P2-3 | Measure feed retention for VnExpress, Tuổi Trẻ and Thanh Niên | W1 | W1 | P2-1 | ✅ |
 | P2-4 | Run the 7-day trial; log the metrics in FEED_TRIAL.md | W1 | W2 | P2-1 | 🟡 |
 | P2-5 | Trial summary per feed: new per day, both duplicate rates, errors, retention, description length | W2 | W3 | P2-4 | ⬜ |
-| P2-6 | Export the shared sample articles (source, URL, title, publish date) | W2 | W2 | P2-4 | ⬜ |
+| P2-6 | Export the shared sample articles (source, URL, title, publish date) | W2 | W3 | P2-4 | ⬜ |
 | P2-7 | Normalize and deduplicate in the collector; feed articles into the pipeline | W3 | W4 | P2-1 | 🟡 |
 | P2-8 | Tests: broken feeds, missing dates, duplicates | W5 | W5 | P2-7 | ✅ |
 | P2-9 | Handover: collector and a guide for adding sources | W7 | W7 | P2-8 | ✅ |
@@ -91,7 +91,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 | ID | Task | Start | Due | Needs | Status |
 |---|---|---|---|---|---|
 | P1-1 | Weekly sync and PLAN.md update | — | every week | — | 🟡 |
-| P1-2 | Shared sample dataset finalized from the trial articles | W2 | W2 | P2-6 | ⬜ |
+| P1-2 | Shared sample dataset finalized from the trial articles | W2 | W3 | P2-6 | ⬜ |
 | P1-3 | Orchestration flow for the processing steps; keeps running when a feed fails and records "Hoàn thành một phần" | W3 | W4 | P2-7 | ⬜ |
 | P1-4 | Trial run from RSS to dashboard | W4 | W4 | P6-6 | ⬜ |
 | P1-5 | Full-flow test, including when one source fails | W5 | W5 | P1-4 | ⬜ |
