@@ -126,13 +126,20 @@ function scaleTo(counts, total) {
   return scaled
 }
 
+// The chart points, the total and the per-source counts for `range`. Topic Detail and its article
+// list both use these, so the list total always matches the article count shown on the page.
+function rangeFigures(range) {
+  const d = detailSample
+  const points = buildSeries(d.timeline.points.map((p) => p.count), d.topic.growth_pct, d.data_as_of, range)
+  const total = sum(points.map((p) => p.count))
+  return { points, total, dist: scaleTo(d.source_distribution.map((s) => s.article_count), total) }
+}
+
 // GET /api/topics/{topic_id}
 export async function getTopic(topicId, { range = '24h' } = {}) {
   assertTopic(topicId)
   const d = detailSample
-  const points = buildSeries(d.timeline.points.map((p) => p.count), d.topic.growth_pct, d.data_as_of, range)
-  const total = sum(points.map((p) => p.count))
-  const dist = scaleTo(d.source_distribution.map((s) => s.article_count), total)
+  const { points, total, dist } = rangeFigures(range)
   const kw = d.related_keywords.map((k) => Math.max(1, Math.round((k.count * total) / d.topic.article_count)))
 
   return {
@@ -150,16 +157,17 @@ export async function getTopic(topicId, { range = '24h' } = {}) {
   }
 }
 
-// GET /api/topics/{topic_id}/articles  (proposed; see docs/api-samples/README.md, open question 1)
-export async function getTopicArticles(topicId, { source = '', limit = 10, offset = 0 } = {}) {
+// GET /api/topics/{topic_id}/articles  (agreed with Person 6; see docs/api-samples/README.md, answer 1)
+// `range` is part of the contract so `total` matches the article count of that range on the page.
+export async function getTopicArticles(topicId, { range = '24h', source = '', limit = 10, offset = 0 } = {}) {
   assertTopic(topicId)
+  const { total, dist } = rangeFigures(range)
+  const since = Date.parse(detailSample.data_as_of) - ({ '6h': 6, '24h': 24, '7d': 168 }[range] ?? 24) * HOUR
   const items = detailSample.articles.items
-    .filter((a) => !source || a.source.code === source)
+    .filter((a) => (!source || a.source.code === source) && Date.parse(a.published_at) >= since)
     .sort((a, b) => b.published_at.localeCompare(a.published_at))
-  const total = source
-    ? (detailSample.source_distribution.find((s) => s.source.code === source)?.article_count ?? 0)
-    : detailSample.articles.total
-  return { total, limit, offset, items: items.slice(offset, offset + limit) }
+  const sourceIndex = detailSample.source_distribution.findIndex((s) => s.source.code === source)
+  return { total: source ? (dist[sourceIndex] ?? 0) : total, limit, offset, items: items.slice(offset, offset + limit) }
 }
 
 // GET /api/status

@@ -59,7 +59,7 @@ Pages call functions from `api.js` and never read JSON or call `fetch` themselve
 |---|---|---|
 | `getTopics({ range, source, sort, q, limit, offset })` | `GET /api/topics` | Overview |
 | `getTopic(topicId, { range })` | `GET /api/topics/{topic_id}` | Topic Detail |
-| `getTopicArticles(topicId, { source, limit, offset })` | `GET /api/topics/{topic_id}/articles` (**proposed**, see below) | Related articles |
+| `getTopicArticles(topicId, { range, source, limit, offset })` | `GET /api/topics/{topic_id}/articles` (agreed with Person 6; returns `{ total, limit, offset, items }`, newest first) | Related articles |
 | `getStatus()` | `GET /api/status` | System Status and the top bar |
 
 Query parameter names and values are the ones in [api-samples/README.md](api-samples/README.md). A missing topic must be an `ApiError` with `status` 404; the Topic Detail page shows "Không tìm thấy chủ đề" for exactly that case and a generic error for anything else.
@@ -70,7 +70,7 @@ URL state lives in the query string and defaults are left out: Overview uses `ra
 
 Do these in order. The sample JSON is a proposal for Person 6, so expect small differences in field names.
 
-1. **Agree the contract first.** The three open questions in [api-samples/README.md](api-samples/README.md) are still unanswered: a separate `/articles` endpoint, where the source list lives, and the remaining notes. `getTopicArticles` only exists because of question 1; if Person 6 prefers embedding articles in the detail response, change `RelatedArticles.jsx` instead.
+1. **The contract is agreed.** Person 6 answered the three open questions in [api-samples/README.md](api-samples/README.md) (17–19 November): the separate `/articles` endpoint is accepted and takes `range`, so its `total` matches the article count on the page; `sources` stays in `GET /api/topics`; `topic_id` is an integer. Unknown or non-numeric ids return 404. `GET /api/topics/{topic_id}` only needs `articles.total`; the page already loads the list from `getTopicArticles`.
 2. **Replace the bodies in `api.js`, keep the signatures.** Each function becomes a `fetch` that builds the query string from its arguments, turns a 404 into `new ApiError(404, …)` and any other non-OK response into an `ApiError` with that status, and returns the parsed JSON. Drop the sample imports, `buildSeries` and the other sample helpers.
 3. **Set `SAMPLE_MODE` to `false`** at the top of `api.js`. The "Dữ liệu minh họa" badge in the top bar disappears.
 4. **API address.** Not implemented yet. A simple choice is to proxy `/api` to the FastAPI server in `vite.config.js` (`server.proxy`) and call relative URLs, so no address is hard-coded. For a built demo the backend must serve the same origin or allow CORS.

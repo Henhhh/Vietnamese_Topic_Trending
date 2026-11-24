@@ -129,12 +129,18 @@ describe('Topic Detail', () => {
 
 describe('Related articles', () => {
   const sources = [{ code: 'tuoitre', name: 'Tuổi Trẻ' }]
-  const show = () => render(<RelatedArticles topicId={1042} sources={sources} total={148} sourceCount={4} />)
+  const show = (range = '24h') => render(<RelatedArticles topicId={1042} range={range} sources={sources} total={148} sourceCount={4} />)
 
   it('shows a loading message', () => {
     api.getTopicArticles.mockImplementation(never)
     show()
     expect(screen.getByText('Đang tải…')).toBeTruthy()
+  })
+
+  it('asks for the articles of the selected range', async () => {
+    show('7d')
+    await screen.findByText('Giá vàng SJC tăng trở lại sau phiên điều chỉnh')
+    expect(api.getTopicArticles).toHaveBeenCalledWith(1042, expect.objectContaining({ range: '7d' }))
   })
 
   it('shows an error with retry, and retry recovers', async () => {

@@ -186,6 +186,7 @@ export default function TopicDetailPage() {
 
           <RelatedArticles
             topicId={topic.topic_id}
+            range={range}
             sources={data.source_distribution.map((s) => s.source)}
             total={data.articles.total}
             sourceCount={topic.source_count}

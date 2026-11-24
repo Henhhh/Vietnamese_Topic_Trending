@@ -184,6 +184,19 @@ describe('getTopicArticles', () => {
     expect((await getTopicArticles(1042, { offset: 99 })).items).toEqual([])
   })
 
+  it('reports a total that matches the topic article count of the same range', async () => {
+    for (const range of ['6h', '24h', '7d']) {
+      const { topic } = await getTopic(1042, { range })
+      expect((await getTopicArticles(1042, { range })).total).toBe(topic.article_count)
+    }
+  })
+
+  it('splits the range total by source', async () => {
+    const { source_distribution } = await getTopic(1042, { range: '7d' })
+    const tuoitre = source_distribution.find((s) => s.source.code === 'tuoitre')
+    expect((await getTopicArticles(1042, { range: '7d', source: 'tuoitre' })).total).toBe(tuoitre.article_count)
+  })
+
   it('rejects an unknown topic with a 404', async () => {
     await expect(getTopicArticles(9999)).rejects.toMatchObject({ status: 404 })
   })

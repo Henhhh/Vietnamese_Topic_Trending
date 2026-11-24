@@ -7,7 +7,7 @@ const PAGE_SIZE = 10
 
 // Related articles, newest first, with its own source filter and "load more".
 // "Load more" shows while fewer articles are loaded than the total; a page that comes back empty ends it.
-export default function RelatedArticles({ topicId, sources, total, sourceCount }) {
+export default function RelatedArticles({ topicId, range, sources, total, sourceCount }) {
   const [source, setSource] = useState('')
   const [state, setState] = useState({ status: 'loading', items: [], total, done: false })
   const [loadingMore, setLoadingMore] = useState(false)
@@ -16,17 +16,17 @@ export default function RelatedArticles({ topicId, sources, total, sourceCount }
   useEffect(() => {
     let stale = false
     setState((s) => ({ ...s, status: 'loading' }))
-    getTopicArticles(topicId, { source, limit: PAGE_SIZE, offset: 0 })
+    getTopicArticles(topicId, { range, source, limit: PAGE_SIZE, offset: 0 })
       .then((r) => !stale && setState({ status: 'ready', items: r.items, total: r.total, done: r.items.length === 0 }))
       .catch(() => !stale && setState((s) => ({ ...s, status: 'error' })))
     return () => {
       stale = true
     }
-  }, [topicId, source, attempt])
+  }, [topicId, range, source, attempt])
 
   function loadMore() {
     setLoadingMore(true)
-    getTopicArticles(topicId, { source, limit: PAGE_SIZE, offset: state.items.length })
+    getTopicArticles(topicId, { range, source, limit: PAGE_SIZE, offset: state.items.length })
       .then((r) => setState((s) => ({ ...s, items: [...s.items, ...r.items], done: r.items.length === 0 })))
       .catch(() => setState((s) => ({ ...s, status: 'error' })))
       .finally(() => setLoadingMore(false))
