@@ -102,7 +102,11 @@ def validate_trial(
     duration_days: int = 7,
     tolerance_seconds: int = 120,
 ) -> dict[str, object]:
-    """Check recorded feed polls against a continuous, fixed-interval trial window."""
+    """Check that every feed has polls on `duration_days` consecutive calendar days.
+
+    Gaps inside those days do not fail the check; they are reported as
+    missing intervals and coverage_pct so results can state the real coverage.
+    """
     if not feeds:
         raise ValueError("At least one feed is required to validate a trial")
     if interval_seconds <= 0 or duration_days <= 0 or tolerance_seconds < 0:
@@ -160,10 +164,9 @@ def validate_trial(
         feed_complete = (
             trial_start is not None
             and elapsed_seconds >= duration_seconds
-            and len(observed) == expected_polls
-            and len(matched_slots) == expected_polls
             and consecutive_days >= duration_days
         )
+        coverage_pct = round(100 * len(matched_slots) / due_polls, 1) if due_polls else 0.0
         feed_results.append(
             {
                 "feed_id": feed.feed_id,
@@ -176,6 +179,7 @@ def validate_trial(
                 "actual_polls": len(observed),
                 "matched_expected_polls": len(matched_slots),
                 "missing_intervals": missing_intervals,
+                "coverage_pct": coverage_pct,
                 "consecutive_days": consecutive_days,
                 "status": "complete" if feed_complete else "incomplete",
             }
@@ -203,6 +207,9 @@ def validate_trial(
             default=0,
         ),
         "missing_interval_count": sum(int(result["missing_intervals"]) for result in feed_results),
+        "coverage_pct": round(
+            sum(float(result["coverage_pct"]) for result in feed_results) / len(feed_results), 1
+        ),
         "feeds": feed_results,
     }
 

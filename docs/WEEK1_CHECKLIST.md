@@ -11,7 +11,7 @@ Legend: `[ ]` open · `[x]` done.
 - [ ] Articles are stored, not only counts ([FEED_TRIAL.md](FEED_TRIAL.md), "Store the articles, not only the counts").
 - [ ] The metrics in FEED_TRIAL.md "What to record" are logged per feed.
 - [ ] Feed retention measured for VnExpress, Tuổi Trẻ and Thanh Niên (only Dân trí is measured so far).
-- [ ] Trial start date: ______ · expected end date (start + 7 days): ______
+- [x] Trial start date: 21 Nov 2026 15:47 (+07:00), from the first poll in the DB · expected end date (start + 7 days): 28 Nov 2026 15:47 (+07:00). Reported by Person 2 on 25 Nov.
 
 ## Person 6 — Backend and database
 

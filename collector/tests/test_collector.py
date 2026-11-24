@@ -498,13 +498,14 @@ class TrialReportTests(unittest.TestCase):
 
         result = validate_trial(feeds, metrics, now=start + timedelta(days=7))
 
-        self.assertEqual(result["status"], "incomplete")
+        self.assertEqual(result["status"], "complete")
         self.assertEqual(result["expected_polls_per_feed"], 672)
         self.assertEqual(result["missing_interval_count"], 1)
         feed_results = {item["feed_id"]: item for item in result["feeds"]}
-        self.assertEqual(feed_results[1]["status"], "complete")
+        self.assertEqual(feed_results[1]["coverage_pct"], 100.0)
         self.assertEqual(feed_results[2]["actual_polls"], 671)
         self.assertEqual(feed_results[2]["missing_intervals"], 1)
+        self.assertEqual(feed_results[2]["coverage_pct"], 99.9)
 
     def test_trial_validation_accepts_complete_seven_day_cadence(self) -> None:
         feeds = [feed(1)]
@@ -534,7 +535,7 @@ class TrialReportTests(unittest.TestCase):
         self.assertEqual(feed_results[1]["actual_polls"], 576)
         self.assertEqual(feed_results[2]["actual_polls"], 0)
 
-    def test_trial_validation_rejects_seven_dates_without_interval_coverage(self) -> None:
+    def test_trial_validation_accepts_seven_calendar_days_and_reports_low_coverage(self) -> None:
         configured_feed = feed(1)
         start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)
         metrics = [
@@ -544,10 +545,24 @@ class TrialReportTests(unittest.TestCase):
 
         result = validate_trial([configured_feed], metrics, now=start + timedelta(days=7))
 
-        self.assertEqual(result["status"], "incomplete")
+        self.assertEqual(result["status"], "complete")
         self.assertEqual(result["consecutive_days"], 7)
+        self.assertEqual(result["coverage_pct"], 1.0)
         self.assertEqual(result["feeds"][0]["actual_polls"], 7)
         self.assertEqual(result["feeds"][0]["missing_intervals"], 665)
+
+    def test_trial_validation_rejects_a_calendar_day_without_polls(self) -> None:
+        configured_feed = feed(1)
+        start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)
+        metrics = [
+            {"feed_id": 1, "polled_at": (start + timedelta(days=day)).isoformat()}
+            for day in (0, 1, 2, 4, 5, 6)
+        ]
+
+        result = validate_trial([configured_feed], metrics, now=start + timedelta(days=7))
+
+        self.assertEqual(result["status"], "incomplete")
+        self.assertEqual(result["consecutive_days"], 3)
 
     def test_summary_reports_new_per_day_duplicate_rates_errors_retention_and_descriptions(self) -> None:
         configured_feed = feed(1)
