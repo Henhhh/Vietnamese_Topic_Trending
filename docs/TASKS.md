@@ -27,7 +27,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 | P2-2 | Map each source's category names to the 5 shared categories | W1 | W1 | — | ✅ |
 | P2-3 | Measure feed retention for VnExpress, Tuổi Trẻ and Thanh Niên | W1 | W1 | P2-1 | ✅ |
 | P2-4 | Run the 7-day trial; log the metrics in FEED_TRIAL.md | W1 | W2 | P2-1 | 🟡 |
-| P2-5 | Trial summary per feed: new per day, both duplicate rates, errors, retention, description length | W2 | W2 | P2-4 | ⬜ |
+| P2-5 | Trial summary per feed: new per day, both duplicate rates, errors, retention, description length | W2 | W3 | P2-4 | ⬜ |
 | P2-6 | Export the shared sample articles (source, URL, title, publish date) | W2 | W2 | P2-4 | ⬜ |
 | P2-7 | Normalize and deduplicate in the collector; feed articles into the pipeline | W3 | W4 | P2-1 | 🟡 |
 | P2-8 | Tests: broken feeds, missing dates, duplicates | W5 | W5 | P2-7 | ✅ |
@@ -42,7 +42,7 @@ Legend: ⬜ not started · 🟡 in progress · ✅ done.
 | P3-3 | Label clusters with keywords | W3 | W4 | P4-2 | ⬜ |
 | P3-4 | Return keywords and topic labels to the pipeline | W4 | W4 | P3-2 | ⬜ |
 | P3-5 | Check for overly generic or out-of-context keywords | W5 | W5 | P3-4 | ⬜ |
-| P3-6 | Decide with Person 4 whether full text is needed for any source (after the trial) | W2 | W2 | P2-5 | ⬜ |
+| P3-6 | Decide with Person 4 whether full text is needed for any source (after the trial) | W2 | W3 | P2-5 | ⬜ |
 | P3-7 | Handover: NLP module with input/output examples | W7 | W7 | P3-5 | ⬜ |
 
 ## Person 4 — Topic detection
