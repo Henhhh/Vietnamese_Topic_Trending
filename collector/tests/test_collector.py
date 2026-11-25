@@ -568,6 +568,38 @@ class TrialReportTests(unittest.TestCase):
         self.assertEqual(result["missing_interval_count"], 0)
         self.assertEqual(result["coverage_pct"], 100.0)
 
+    def test_trial_validation_rejects_a_feed_whose_polls_all_failed(self) -> None:
+        feeds = [feed(1), feed(2, category_code="the-gioi")]
+        start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)
+        metrics = self._poll_metrics(feeds, start, 672)
+        for row in metrics:
+            row["error_count"] = 1 if row["feed_id"] == 2 else 0
+
+        result = validate_trial(feeds, metrics, now=start + timedelta(days=7))
+
+        self.assertEqual(result["status"], "incomplete")
+        self.assertEqual(result["feed_coverage"], {"expected": 2, "observed": 1})
+        self.assertEqual(result["failed_poll_count"], 672)
+        failed = result["feeds"][1]
+        self.assertEqual((failed["actual_polls"], failed["successful_polls"], failed["failed_polls"]), (672, 0, 672))
+        self.assertEqual(failed["coverage_pct"], 0.0)
+        self.assertEqual(failed["consecutive_days"], 0)
+        self.assertEqual(result["feeds"][0]["status"], "complete")
+
+    def test_trial_validation_counts_failed_polls_as_gaps_not_coverage(self) -> None:
+        configured_feed = feed(1)
+        start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)
+        metrics = self._poll_metrics([configured_feed], start, 672)
+        for row in metrics[100:168]:
+            row["error_count"] = 1
+
+        result = validate_trial([configured_feed], metrics, now=start + timedelta(days=7))
+
+        self.assertEqual(result["status"], "complete")
+        self.assertEqual(result["failed_poll_count"], 68)
+        self.assertEqual(result["missing_interval_count"], 68)
+        self.assertEqual(result["coverage_pct"], 89.9)
+
     def test_trial_validation_rejects_a_calendar_day_without_polls(self) -> None:
         configured_feed = feed(1)
         start = datetime(2026, 11, 13, 8, 0, tzinfo=timezone.utc)

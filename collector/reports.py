@@ -103,9 +103,11 @@ def validate_trial(
 ) -> dict[str, object]:
     """Check that every feed has polls on `duration_days` consecutive calendar days.
 
+    Only successful polls count: a poll that recorded an error stored no data
+    from that feed, so it is reported in failed_polls and not as coverage.
     Gaps inside those days do not fail the check; they are reported as
     missing intervals and coverage_pct so results can state the real coverage.
-    An interval counts as covered when it holds at least one poll, so a
+    An interval counts as covered when it holds a successful poll, so a
     restart that shifts the polling phase does not create false gaps.
     """
     if not feeds:
@@ -119,6 +121,7 @@ def validate_trial(
     expected_polls = duration_seconds // interval_seconds
     expected_feed_ids = {feed.feed_id for feed in feeds}
     timestamps: dict[int, list[datetime]] = {feed.feed_id: [] for feed in feeds}
+    successes: dict[int, set[datetime]] = {feed.feed_id: set() for feed in feeds}
     for metric in metrics:
         feed_id = int(metric["feed_id"])
         if feed_id not in expected_feed_ids or not metric.get("polled_at"):
@@ -126,6 +129,8 @@ def validate_trial(
         value = str(metric["polled_at"])
         polled_at = datetime.fromisoformat(value.replace("Z", "+00:00"))
         timestamps[feed_id].append(_utc_datetime(polled_at))
+        if not int(metric.get("error_count") or 0):
+            successes[feed_id].add(_utc_datetime(polled_at))
 
     all_timestamps = [value for values in timestamps.values() for value in values]
     trial_start = min(all_timestamps) if all_timestamps else None
@@ -149,16 +154,17 @@ def validate_trial(
                 and value <= current_time
             ]
 
+        successful = [value for value in observed if value in successes[feed.feed_id]]
         matched_slots: set[int] = set()
         if trial_start is not None:
-            for value in observed:
+            for value in successful:
                 offset = (value - trial_start).total_seconds()
                 slot = int(offset // interval_seconds)
                 if 0 <= slot < due_polls:
                     matched_slots.add(slot)
 
         missing_intervals = max(0, due_polls - len(matched_slots))
-        consecutive_days = _longest_consecutive_days(observed)
+        consecutive_days = _longest_consecutive_days(successful)
         feed_complete = (
             trial_start is not None
             and elapsed_seconds >= duration_seconds
@@ -175,6 +181,8 @@ def validate_trial(
                 "expected_polls": expected_polls,
                 "due_polls": due_polls,
                 "actual_polls": len(observed),
+                "successful_polls": len(successful),
+                "failed_polls": len(observed) - len(successful),
                 "matched_expected_polls": len(matched_slots),
                 "missing_intervals": missing_intervals,
                 "coverage_pct": coverage_pct,
@@ -183,7 +191,7 @@ def validate_trial(
             }
         )
 
-    observed_feeds = sum(bool(result["actual_polls"]) for result in feed_results)
+    observed_feeds = sum(bool(result["successful_polls"]) for result in feed_results)
     complete = trial_start is not None and all(result["status"] == "complete" for result in feed_results)
     latest_poll = max(
         (result["last_poll_at"] for result in feed_results if result["last_poll_at"]),
@@ -205,6 +213,7 @@ def validate_trial(
             default=0,
         ),
         "missing_interval_count": sum(int(result["missing_intervals"]) for result in feed_results),
+        "failed_poll_count": sum(int(result["failed_polls"]) for result in feed_results),
         "coverage_pct": round(
             sum(float(result["coverage_pct"]) for result in feed_results) / len(feed_results), 1
         ),
